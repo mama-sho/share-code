@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html lang="ja">
+  <%- include('include/head') %>
+  <body>
+    <div class="container">
+      <h1><%= message %></h1>
+      <h2><%= error.status %></h2>
+      <pre><%= error.stack %></pre>
+      <script src="/javascripts/bunble.js"></script>
+    </div>
+  </body>
+</html>
+<!-- エラーが出た時の表示　-->

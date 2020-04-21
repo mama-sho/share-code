@@ -1,0 +1,53 @@
+<!--ログイン画面-->
+<!DOCTYPE html>
+<html lang="ja">
+  <%- include("include/head") %>
+  <body>
+    <!--ヘッダー部分-->
+    <nav class="navbar navbar-expand-sm navbar-dark bg-dark mb-3">
+      <div class="container">
+        <h2 class="navbar-brand font-italic">Share Code</h2>
+      </div>
+    </nav>
+
+    <div class="container">
+      <p>ログインページ</p>
+      <form action="/login" method="post">
+        <div class="form-group">
+          <label for="email">emailアドレス</label>
+          <input
+            required
+            class="form-control is-valid"
+            type="text"
+            id="email"
+            name="email"
+          />
+          <div class="invalid-feedback">emailアドレスを入力してください</div>
+        </div>
+        <div class="form-group">
+          <label for="password">パスワード</label>
+          <input
+            required
+            class="form-control is-invalid"
+            type="text"
+            id="passeord"
+            name="password"
+          />
+        </div>
+        <br />
+
+        <button class="btn btn-success btn-lg">ログイン</button>
+        <p>
+          アカウントをお持ちでないですか？<a
+            class="btn btn-primary btn-lg"
+            href="signup"
+            role="button"
+            >アカウント作成</a
+          >
+        </p>
+      </form>
+
+      <script src="/javascripts/bunble.js"></script>
+    </div>
+  </body>
+</html>

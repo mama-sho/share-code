@@ -1,0 +1,14 @@
+<!--全てのユーザーの楽器の一覧-->
+<!DOCTYPE html>
+<html lang="ja">
+  <%- include('../include/head') %>
+  <body>
+    <div class="container">
+      <h1>人気の楽器一覧</h1>
+      <% instruments.forEach(function (inst) { %>
+      <div><%= inst.favoriteInstrument %></div>
+      <% }); %>
+      <script src="/javascripts/bunble.js"></script>
+    </div>
+  </body>
+</html>
