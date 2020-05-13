@@ -15,8 +15,13 @@ var fileupload = require('express-fileupload')
 var AWS = require('aws-sdk')
 
 // aws コンフィグ設定
-AWS.config.loadFromPath('./rootkey.env')
-AWS.config.update({ region: 'ap-northeast-1' }) // 日本東京
+AWS.config.update({
+  credentials: new AWS.Credentials(
+    process.env.ACCESS_KEY_ID,
+    process.env.SECRET_ACCESS_KEY,
+  ),
+  region: 'ap-northeast-1',
+})
 
 //  モデルファイルの読み込み
 var Notice = require('./models/notice')
