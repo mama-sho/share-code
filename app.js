@@ -9,6 +9,7 @@ var passport = require('passport')
 var LocalStrategy = require('passport-local').Strategy
 var session = require('express-session')
 
+require('dotenv').config()
 //今回追加したもの
 var fileupload = require('express-fileupload')
 
