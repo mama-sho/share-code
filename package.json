@@ -19,7 +19,7 @@
     "fs": "0.0.1-security",
     "helmet": "3.8.2",
     "http-errors": "^1.7.3",
-    "jquery": "3.4.1",
+    "jquery": "3.5.0",
     "morgan": "~1.9.0",
     "passport": "0.3.2",
     "passport-local": "^1.0.0",
