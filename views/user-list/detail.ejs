@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="ja">
+  <%- include('../include/head') %>
+  <body id="mypage-body">
+    <!-- ヘッダー部分 -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+      <div class="container">
+        <h2 class="navber-brand font-italic text-light">Share code</h2>
+        <div class="float-right">
+          <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="ナビゲーションの切替">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse" id="navbarNav">
+            <div class="float-right d-none d-sm-block">
+              <ul class="navbar-nav">
+                <li class="nav-item ml-1">
+                  <a class="nav-link ml-2" href="/">Top</a>
+                </li>
+                <li class="nav-item ml-1">
+                  <a class="nav-link ml-2" href="/user-list">Users</a>
+                </li>
+                <li class="nav-item ml-1">
+                  <a class="nav-link ml-2" href="/posts/new">New</a>
+                </li>
+                <li class="nav-item ml-1">
+                  <a class="nav-link ml-2" href="/mypage">My page</a>
+                </li>
+                <li class="nav-item ml-1">
+                  <a class="nav-link ml-2" href="/login">Login</a>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </nav>
+    <!-- メイン -->
+    <div class="container pt-5">
+      <div class="row mt-2">
+        <h1 class="pl-5 mt-3 text-light"><%= user.name %> profile</h1>
+        <div class="w-100 h-100" style="border:1px solid #333"></div>
+
+        <div class="col-12 col-md-6 pt-4 pl-5">
+          <div class="text-center">
+            <img
+              class="user-list-detail"
+              id="preview"
+              src="https://s3-ap-northeast-1.amazonaws.com/share-code.bucket/upload-icon/<%= user.iconFileName %>"
+              alt="">
+          </div>
+        </div>
+
+        <div class="col-6 d-flex flex-column row-h1 text-light">
+          <div class="item-h1 mt-5">
+            <label class="font-weight-bold">username</label>
+            <h1 class="pl-3"><%= user.name %></h1>
+          </div>
+          <span>
+            合計Card数<%= posts.filter((v) => user.id === v.userId).length %>
+          </span>
+          <span>
+            合計いいね数<%= user.favorite %>
+          </span>
+        </div>
+      </div>
+
+      <!-- 紹介文 -->
+      <p class="ml-3 mt-4">profile</p>
+      <div class="col-8 border rounded bg-light">
+        <span><%= user.introduction %></span>
+      </div>
+
+      <!-- この人のCardを表示 -->
+      <h2 class="font-italic mt-5 ml-2 text-light">Card</h2>
+      <div class="w-100 h-100" style="border:1px solid #333"></div>
+      <div class="row">
+        <% posts.forEach(post => { %>
+        <% if (post.userId === user.id) { %>
+          <div class="col-12 col-lg-6">
+            <div class="card mt-3">
+              <% if (posts.isOriginal === "true") { %>
+              <div class="card-header font-weight-bold bg-primary">
+                <img
+                  class="card-icon"
+                  src="https://s3-ap-northeast-1.amazonaws.com/share-code.bucket/upload-icon/<%= post.user.iconFileName %>"
+                  alt=""
+                />
+                <%= post.user.name %>
+                <span class="float-right">
+                  <a href="/favorite/<%= post.id %>"><!--/:postId-->
+                    <i class="far fa-heart fa-fw fa-lg"></i>
+                  </a>
+                  <span>
+                    <%= favorites.filter((v) => post.id === v.postId).length%>
+                  </span>
+                  <i class="far fa-comment fa-fw ml-2 fa-lg"></i>
+                  <span>
+                    <%= comments.filter((v) => post.id === v.postId).length %>
+                  </span>
+                </span>
+              </div>
+  
+              <% } else { %>
+              <div class="card-header font-weight-bold bg-success">
+                <img
+                  class="card-icon"
+                  src="https://s3-ap-northeast-1.amazonaws.com/share-code.bucket/upload-icon/<%= post.user.iconFileName %>"
+                  alt=""
+                />
+                <%= post.user.name %>
+                <span class="float-right">
+                  <a href="/favorite/<%= post.id %>"><!--/:postId-->
+                    <i class="far fa-heart fa-fw fa-lg"></i>
+                  </a>
+                  <span>
+                    <%= favorites.filter((v) => post.id === v.postId).length %>
+                  </span>
+                  <i class="far fa-comment fa-fw ml-2 fa-lg"></i>
+                  <span>
+                    <%= comments.filter((v) => post.id === v.postId).length %>
+                  </span>
+              </div>
+              <% }; %>
+  
+              <div class="card-body bg-light">
+                <h4 class="card-title"><%= post.songName %></h4>
+                <p class="card-text code-prog"><%= post.codeProg %></p>
+                <p class="card-text card-memo"><%= post.memo %></p>
+                <!--このcardのidでこのcardの詳細ページにいく-->
+                <span>
+                  <a href="/posts/<%= post.id %>">詳細</a>
+                </sapn>
+                <span class="ml-3">
+                  <a href="/mypage/destroy/<%= post.id %>">削除する</a>
+                </span>
+  
+                <% if(post.audioFileName !== 'no-audio') { %>
+                  <span class="float-right mr-2">
+                    <span class="text-dark sound-button" data-audio="audio<%= post.id %>" onclick="sound(event)">
+                      プレイヤーの表示<i class="fas fa-play-circle fa-fw fa-3x"></i>
+                    </span>
+                  </span>
+                  <audio id="audio<%= post.id %>" preload="none"><!-- 最初から読み込まないnone -->
+                    <source src="https://s3-ap-northeast-1.amazonaws.com/share-code.bucket/audio/<%= post.audioFileName %>" type="audio/mp3">
+                    <source src="https://s3-ap-northeast-1.amazonaws.com/share-code.bucket/audio/<%= post.audioFileName %>" type="audio/mp4">
+                    <source src="https://s3-ap-northeast-1.amazonaws.com/share-code.bucket/audio/<%= post.audioFileName %>" type="audio/mpeg"/>
+                    <source src="https://s3-ap-northeast-1.amazonaws.com/share-code.bucket/audio/<%= post.audioFileName %>" type="audio/wav" />
+                    <source src="https://s3-ap-northeast-1.amazonaws.com/share-code.bucket/audio/<%= post.audioFileName %>" type="audio/ogg" />
+                    <source src="https://s3-ap-northeast-1.amazonaws.com/share-code.bucket/audio/<%= post.audioFileName %>" type="audio/ogg; codecs=vorbis"/>
+                    <source src="https://s3-ap-northeast-1.amazonaws.com/share-code.bucket/audio/<%= post.audioFileName %>" type="audio/ogg; codecs=opus"/>
+                    <p>対応していないファイルです</p>
+                  </aidio>
+                <% }; %>
+              </div>
+  
+            </div>
+  
+          </div>
+        <% }; %>
+        <% }); %>
+        </div>
+  
+
+
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+    <script src="/javascripts/bunble.js"></script>
+  </body>
+</html>

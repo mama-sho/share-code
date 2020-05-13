@@ -1,7 +1,7 @@
 //  厳格モード、sequelizeの読み込み
-'use strict';
-const loader = require('./sequelize-loader');
-const Sequelize = loader.Sequelize;
+'use strict'
+const loader = require('./sequelize-loader')
+const Sequelize = loader.Sequelize
 
 // モデルの作成
 const Favorite = loader.database.define(
@@ -18,6 +18,7 @@ const Favorite = loader.database.define(
       allowNull: false,
     },
     userId: {
+      //いいねした人
       type: Sequelize.INTEGER,
       allowNull: false,
     },
@@ -25,7 +26,7 @@ const Favorite = loader.database.define(
   {
     //テーブル名の固定
     freezeTableName: true,
-  }
-);
+  },
+)
 
-module.exports = Favorite;
+module.exports = Favorite

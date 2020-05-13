@@ -1,20 +1,159 @@
+/* 画像 */
 body {
   font: 14px 'Lucida Grande', Helvetica, Arial, sans-serif;
-  background-color: white;
+}
+.navbar-nav {
+  font-size: large;
+}
+#post-body {
+  background-image: url();
+  background-color: cornsilk;
+  background-size: cover;
+  background-attachment: fixed;
+  font: 14px 'Lucida Grande', Helvetica, Arial, sans-serif;
+  backdrop-filter: blur(0px) grayscale(90%);
+}
+#new-body {
+  background-image: url();
+  background-color: cornsilk;
+  background-size: cover;
+  background-attachment: fixed;
+  font: 14px 'Lucida Grande', Helvetica, Arial, sans-serif;
+  backdrop-filter: blur(5px) grayscale(90%);
+}
+#login-body {
+  width: 100vw;
+  height: 100vh;
+  background-image: url('../images/guitar-1928322_1920.jpg');
+  background-size: cover;
+  background-attachment: fixed;
+  font: 14px 'Lucida Grande', Helvetica, Arial, sans-serif;
+  backdrop-filter: blur(3px);
+}
+#signup-body {
+  width: 100vw;
+  height: 100vh;
+  background-image: url('../images/guitar-1928322_1920.jpg');
+  background-size: cover;
+  background-attachment: fixed;
+  font: 14px 'Lucida Grande', Helvetica, Arial, sans-serif;
+  backdrop-filter: blur(3px);
+}
+#mypage-body {
+  background-image: url();
+  background-color: cornsilk;
+  background-size: cover;
+  background-attachment: fixed;
+  backdrop-filter: blur(3px) grayscale(90%);
+}
+#userlist-body {
+  width: 100vw;
+  height: 100vw;
+  background-image: url();
+  background-color: cornsilk;
+  background-size: cover;
+  background-attachment: fixed;
+  background-repeat: no-repeat;
+  backdrop-filter: brightness(300%) blur(3px) grayscale(80%);
+}
+
+#layout-body {
+  background-image: url('../images/musical-background-2842924_1920.jpg');
+  background-size: cover;
+  background-attachment: fixed;
+  background-repeat: no-repeat;
+  backdrop-filter: brightness(300%);
+  backdrop-filter: blur(3px);
+  backdrop-filter: grayscale(100%);
 }
 
 a {
   color: #00b7ff;
 }
 
-.mypage-icon {
-  width: 275px;
-  height: 275px;
+form {
+  width: 100%;
+}
+
+.fa-comment {
+  color: gray;
+}
+.fa-heart {
+  color: grey;
+}
+.audiofile {
+  cursor: pointer;
+}
+.layout-text {
+  margin-top: 200px;
+}
+/* inputのスタイルを無効にする */
+label > input {
+  display: none;
+}
+
+/* user-list css */
+.userlist-Card {
+  box-shadow: 2px 2px 0px 0px black;
+}
+.userlist-Card:hover {
+  box-shadow: none;
+}
+.userlist a {
+  text-decoration: none;
+}
+
+.userlist-name {
+  font-size: x-large;
+}
+
+.user-introduction {
+  width: 95%;
+  display: block;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+/*   アイコンcss  */
+/*border-radiusで丸くしている*/
+/*object-fitで画像をトリミング*/
+.signup-icon {
+  width: 270px;
+  height: 270px;
   border: groove 5px;
   border-color: black;
-  object-fit: cover; /*object-fitで画像をトリミング*/
-  border-radius: 50%; /*border-radiusで丸くしている*/
+  object-fit: cover;
+  border-radius: 50%;
 }
+.mypage-icon {
+  width: 270px;
+  height: 270px;
+  border: groove 5px;
+  border-color: black;
+  object-fit: cover;
+  border-radius: 50%;
+}
+
+/*  xs の時のサイズ  */
+@media screen and (max-width: 290px) {
+  .signup-icon {
+    width: 200px;
+    height: 200px;
+    border: groove 5px;
+    border-color: black;
+    object-fit: cover;
+    border-radius: 50%;
+  }
+  .mypage-icon {
+    width: 200px;
+    height: 200px;
+    border: groove 5px;
+    border-color: black;
+    object-fit: cover;
+    border-radius: 50%;
+  }
+}
+
 .card-icon {
   width: 48px;
   height: 48px;
@@ -26,25 +165,87 @@ a {
   height: 250px;
   border: groove 5px;
   border-color: black;
-  object-fit: cover; /*object-fitで画像をトリミング*/
-  border-radius: 50%; /*border-radiusで丸くしている*/
+  object-fit: cover;
+  border-radius: 50%;
 }
 .userlist-icon {
-  width: 65px;
-  height: 65px;
+  width: 100px;
+  height: 100px;
+  object-fit: cover;
+  border-radius: 50%;
+}
+.user-list-detail {
+  width: 240px;
+  height: 240px;
+  border: groove 5px;
+  border-color: black;
   object-fit: cover;
   border-radius: 50%;
 }
 .comment-icon {
-  width: 40px;
-  height: 40px;
+  width: 50px;
+  height: 50px;
+  object-fit: cover;
+  border-radius: 50%;
+}
+.reply-icon {
+  width: 43px;
+  height: 43px;
   object-fit: cover;
   border-radius: 50%;
 }
 
-.userlist-name {
-  font-size: 27px;
+/*  card-css */
+.card {
+  box-shadow: 0 0 8px grey;
+}
+.card-title {
+  width: 95%;
+  display: block;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.card-memo {
+  width: 95%;
+  display: block;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 .code-prog {
+  width: 85%;
+  display: block;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
   font-size: x-large;
+}
+.sound-button {
+  cursor: pointer;
+}
+
+/*　detail.ejs　*/
+.detail-codeProg {
+  font-size: x-large;
+}
+.comment-name {
+  font-size: large;
+}
+.reply_button {
+  cursor: pointer;
+}
+
+@media screen and (min-width: 992px) {
+  .detail-comment {
+    width: 90%;
+  }
+}
+/* post.new css */
+.output-area {
+  font-size: 40px;
+  border: rgb(51, 49, 45) 4px;
+  border-radius: 2%;
+  border-color: darkgoldenrod;
+  min-height: 300px;
 }

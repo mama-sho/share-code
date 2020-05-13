@@ -35,14 +35,18 @@ User.sync().then(() => {
   Comment.sync()
   Notice.sync()
 })
+Post.sync().then(() => {
+  Favorite.belongsTo(Post, { foreignKey: 'postId' })
+  Favorite.sync()
+})
 
 // ログイン処理　ログイン成功したuserが渡されている
 //第二引数に渡すものがセッションに保存されるreq.userになる
-passport.serializeUser(function(user, done) {
+passport.serializeUser(function (user, done) {
   done(null, { id: user.id, email: user.email, name: user.name })
 })
 
-passport.deserializeUser(function(obj, done) {
+passport.deserializeUser(function (obj, done) {
   done(null, obj)
 })
 
@@ -52,9 +56,9 @@ passport.use(
       usernameField: 'email',
       passwordField: 'password',
     }, //emailで検索
-    function(username, password, done) {
+    function (username, password, done) {
       User.findOne({ where: { email: username } })
-        .then(user => {
+        .then((user) => {
           if (!user) {
             return done(null, false, {
               message: 'ユーザーIDが間違っています。',
@@ -67,7 +71,7 @@ passport.use(
           } // username passwordがあってると次の処理doneへ値を渡している
           return done(null, user)
         })
-        .catch(err => {
+        .catch((err) => {
           return done(err)
         })
     },
@@ -79,7 +83,6 @@ var indexRouter = require('./routes/index')
 var loginRouter = require('./routes/login')
 var postsRouter = require('./routes/posts')
 var signupRouter = require('./routes/signup')
-var instrumentRouter = require('./routes/instrument')
 var mypageRouter = require('./routes/mypage')
 var logoutRouter = require('./routes/logout')
 var favoriteRouter = require('./routes/favorites')
@@ -114,19 +117,18 @@ app.use('/', indexRouter)
 app.use('/login', loginRouter)
 app.use('/posts', postsRouter)
 app.use('/signup', signupRouter)
-app.use('/instrument', instrumentRouter)
 app.use('/mypage', mypageRouter)
 app.use('/logout', logoutRouter)
 app.use('/favorite', favoriteRouter)
 app.use('/user-list', user_listRouter)
 
 // catch 404 and forward to error handler
-app.use(function(req, res, next) {
+app.use(function (req, res, next) {
   next(createError(404))
 })
 
 // error handler
-app.use(function(err, req, res, next) {
+app.use(function (err, req, res, next) {
   // set locals, only providing error in development
   res.locals.message = err.message
   res.locals.error = req.app.get('env') === 'development' ? err : {}

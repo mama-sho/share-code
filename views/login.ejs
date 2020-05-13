@@ -2,51 +2,87 @@
 <!DOCTYPE html>
 <html lang="ja">
   <%- include("include/head") %>
-  <body>
+  <body id="login-body">
     <!--ヘッダー部分-->
-    <nav class="navbar navbar-expand-sm navbar-dark bg-dark mb-3">
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
       <div class="container">
-        <h2 class="navbar-brand font-italic">Share Code</h2>
+        <h2 class="navber-brand font-italic text-light">Share code</h2>
+        <div class="float-right">
+          <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="ナビゲーションの切替">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse" id="navbarNav">
+            <div class="float-right d-none d-sm-block">
+              <ul class="navbar-nav">
+                <li class="nav-item ml-1">
+                  <a class="nav-link ml-2" href="/">Top</a>
+                </li>
+                <li class="nav-item ml-1">
+                  <a class="nav-link ml-2" href="/user-list">Users</a>
+                </li>
+                <li class="nav-item ml-1">
+                  <a class="nav-link ml-2" href="/posts/new">New</a>
+                </li>
+                <li class="nav-item ml-1">
+                  <a class="nav-link ml-2" href="/mypage">My page</a>
+                </li>
+                <li class="nav-item ml-1 active">
+                  <a class="nav-link ml-2" href="/login">Login</a>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
       </div>
     </nav>
 
-    <div class="container">
-      <p>ログインページ</p>
+    <div class="container full-page">
+      <h1 class="pl-5 mt-5 font-italic">Login</h1>
+      <div class="w-100 h-100" style="border:1px solid #333"></div>
       <form action="/login" method="post">
-        <div class="form-group">
-          <label for="email">emailアドレス</label>
-          <input
-            required
-            class="form-control is-valid"
-            type="text"
-            id="email"
-            name="email"
-          />
-          <div class="invalid-feedback">emailアドレスを入力してください</div>
+        <input type="hidden" name="_csrf" value="<%- csrfToken %>">
+        <div class="row">
+          <div class="col-md-10 offset-md-1 mt-3">
+            <div class="form-group">
+              <label for="email">emailアドレス</label>
+              <input
+                required
+                class="form-control is-valid"
+                type="text"
+                id="email"
+                name="email"
+              />
+              <div class="invalid-feedback">emailアドレスを入力してください</div>
+            </div>
+            <div class="form-group">
+              <label for="password">パスワード</label>
+              <input
+                required
+                class="form-control is-invalid"
+                type="password"
+                id="passeord"
+                name="password"
+              />
+            </div>
+            <br />
+            <div class="row">
+              <div class="col-12">
+                <div class="float-right">
+                  <button class="btn btn-dark btn-lg">ログイン</button>
+                </div>
+              </div>
+            </div>
+            <div class="col-12 float-right">
+              <p>アカウントをお持ちでないですか？</p>
+              <a class="btn btn-primary btn-lg" href="signup" role="button">アカウント作成</a>
+            </div>
+          </div>
         </div>
-        <div class="form-group">
-          <label for="password">パスワード</label>
-          <input
-            required
-            class="form-control is-invalid"
-            type="text"
-            id="passeord"
-            name="password"
-          />
-        </div>
-        <br />
-
-        <button class="btn btn-success btn-lg">ログイン</button>
-        <p>
-          アカウントをお持ちでないですか？<a
-            class="btn btn-primary btn-lg"
-            href="signup"
-            role="button"
-            >アカウント作成</a
-          >
-        </p>
       </form>
 
+      <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+      <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
       <script src="/javascripts/bunble.js"></script>
     </div>
   </body>

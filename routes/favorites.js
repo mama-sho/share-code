@@ -5,6 +5,7 @@ const router = express.Router()
 //　モデルの読み込み
 const Favorite = require('../models/favorite')
 const Notice = require('../models/notice')
+const Post = require('../models/post')
 
 //  認証処理を読み込み
 const authenticationEnsurer = require('./authentication-ensurer')
@@ -16,7 +17,7 @@ router.get('/:postId', authenticationEnsurer, (req, res, next) => {
       postId: req.params.postId,
       userId: req.user.id,
     },
-  }).then(favorite => {
+  }).then((favorite) => {
     // favoriteに絞り込みの結果が入っている
     // すでに、情報がある場合は、削除する
     if (favorite) {
@@ -28,14 +29,19 @@ router.get('/:postId', authenticationEnsurer, (req, res, next) => {
         postId: req.params.postId,
         userId: req.user.id,
       }).then(() => {
-        // 通知を追加する  確認してほしい
-        Notice.create({
-          senderId: req.user.id,
-          receiverId: req.post.id,
-          targetId: req.params.postId,
-          type: req.params.postId,
-        }).then(() => {
-          res.redirect('/posts')
+        // 通知を追加する
+        Post.findOne({
+          where: { id: req.params.postId },
+        }).then((post) => {
+          Notice.create({
+            senderId: req.user.id,
+            receiverId: post.userId,
+            targetId: req.params.postId,
+            isReed: false,
+            type: 'favorite',
+          }).then(() => {
+            res.redirect('/posts')
+          })
         })
       })
     }

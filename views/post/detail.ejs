@@ -3,70 +3,285 @@
 <html lang="ja">
   <%- include('../include/head') %>
   <body>
-  　<nav class="navbar navbar-expand-sm navbar-dark bg-dark mb-3">
+    <!-- ヘッダー部分 -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
       <div class="container">
-        <h2 class="navbar-brand font-italic">Share Code</h2>
-        <ul class="navbar-nav">
-          <li class="nav-item"><a href="/posts" class="nav-link">トップ</a></li>
-          <li class="nav-item"><a href="/user-list" class="nav-link">ユーザー</a></li>
-          <li class="nav-item"><a href="/posts/new" class="nav-link">新規投稿</a></li>
-          <li class="nav-item"><a href="/mypage" class="nav-link">マイページ</a></li>
-          <li class="nav-item"><a href="/login" class="nav-link">ログイン</a></li>
-        </ul>
+        <h2 class="navber-brand font-italic text-light">Share code</h2>
+        <div class="float-right">
+          <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="ナビゲーションの切替">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse" id="navbarNav">
+            <div class="float-right d-none d-sm-block">
+              <ul class="navbar-nav">
+                <li class="nav-item active ml-1">
+                  <a class="nav-link ml-2" href="/">Top</a>
+                </li>
+                <li class="nav-item ml-1">
+                  <a class="nav-link ml-2" href="/user-list">Users</a>
+                </li>
+                <li class="nav-item ml-1">
+                  <a class="nav-link ml-2" href="/posts/new">New</a>
+                </li>
+                <li class="nav-item ml-1">
+                  <a class="nav-link ml-2" href="/mypage">My page</a>
+                </li>
+                <li class="nav-item ml-1">
+                  <a class="nav-link ml-2" href="/login">Login</a>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
       </div>
     </nav>
 
     <div class="container">
       <div class="row">
-      <div class="card w-75 m-3">
-        <div class="card-header font-weight-bold bg-dark">
-          <img
-          class="card-icon"
-          src="https://s3-ap-northeast-1.amazonaws.com/share-code.bucket/upload-icon/<%= post.user.iconFileName %>"
-          alt=""
-          />
-          <%= post.user.name %><i class="far fa-comment float-right mr-1 fa-lg"></i><i class="far fa-heart float-right mr-3 fa-lg"></i>
-        </div>
-        <div class="card-body bg-light border-success">
-          <h4 class="card-title"><%= post.songName %></h4>
-        <% if (post.isOriginal === "true") { %>
-          <span>original</span>
-        <% }; %>
-          <p class="card-text"><%= post.codeProg %></p>
-          <p class="w-75"><%= post.memo %></p>
+        <div class="col-12 col-lg-10 offset-lg-1">
+            <div class="card m-3">
+              <div class="card-header font-weight-bold bg-dark">
+                <img
+                  class="card-icon"
+                  src="https://s3-ap-northeast-1.amazonaws.com/share-code.bucket/upload-icon/<%= post.user.iconFileName %>"
+                  alt=""
+                />
+                <span class="text-light ml-3"><%= post.user.name %></span>
+                <span class="float-right mr-1 fa-lg">
+                  <i class="far fa-comment"></i>
+                  <span class="text-light">
+                    <%= comments.length %>
+                  </span>
+                </span>
+                <span class="float-right mr-3 fa-lg">
+                  <a href="/favorite/<%= post.id %>">
+                    <i class="far fa-heart"></i>
+                  </a>
+                  <span class="text-light">
+                    <%= favorites.filter((v) => post.id === v.postId).length %>
+                  </span>
+                </span>
+                
+              </div>
+
+              <div class="card-body bg-light border-success">
+                <h4 class="card-title ml-3"><%= post.songName %></h4>
+                  <% if (post.isOriginal === "true") { %>
+                    <span class="ml-5">original</span>
+                  <% }; %>
+                <p class="card-text detail-codeProg mt-1"><%= post.codeProg %></p>
+                <p class="w-100"><%= post.memo %></p>
+
+                <% if(post.audioFileName !== 'no-audio') { %>
+                  <span class="float-right mr-2">
+                    <span data-audio="audio<%= post.id %>" class="text-dark sound-button" onclick="sound(event)">
+                      プレイヤーの表示<i class="fas fa-play-circle fa-fw fa-3x"></i>
+                    </span>
+                  </span>
+                  <audio id="audio<%= post.id %>" preload="none"><!-- 最初から読み込まないnone -->
+                    <source src="https://s3-ap-northeast-1.amazonaws.com/share-code.bucket/audio/<%= post.audioFileName %>" type="audio/mp3">
+                    <source src="https://s3-ap-northeast-1.amazonaws.com/share-code.bucket/audio/<%= post.audioFileName %>" type="audio/mp4">
+                    <source src="https://s3-ap-northeast-1.amazonaws.com/share-code.bucket/audio/<%= post.audioFileName %>" type="audio/mpeg"/>
+                    <source src="https://s3-ap-northeast-1.amazonaws.com/share-code.bucket/audio/<%= post.audioFileName %>" type="audio/wav" />
+                    <source src="https://s3-ap-northeast-1.amazonaws.com/share-code.bucket/audio/<%= post.audioFileName %>" type="audio/ogg" />
+                    <source src="https://s3-ap-northeast-1.amazonaws.com/share-code.bucket/audio/<%= post.audioFileName %>" type="audio/ogg; codecs=vorbis"/>
+                    <source src="https://s3-ap-northeast-1.amazonaws.com/share-code.bucket/audio/<%= post.audioFileName %>" type="audio/ogg; codecs=opus"/>
+                    <p>対応していないファイルです</p>
+                  </aidio>
+                <% }; %>
+
+              </div>
+            </div>
         </div>
       </div>
-      </div>
-      <!--ログイン状態でなければコメントできないようにしている-->
-      <% if(user.name !== null ) { %>
+
+      <!--ログイン状態でなければコメントできないようにしたい-->
+      <% if ( user !== 'null' ) { %>
         <form method="post">
-          <div class="w-75">
-            <textarea name="content" class="bg-light w-100" placeholder="<%= user.name %>としてコメントを入力…"></textarea>
-          </div>
-          <div>
-            <button class="btn btn-primary float-right">送信</button>
+          <input type="hidden" name="_csrf" value="<%- csrfToken %>">
+          <div class="row">
+            <div class="col-1 ml-lg-4">
+              <img
+                class="comment-icon"
+                src="https://s3-ap-northeast-1.amazonaws.com/share-code.bucket/upload-icon/<%= user.iconFileName %>"
+                alt=""
+              />
+            </div>
+            <div class="col-11 col-md-10 col-lg-9">
+              <textarea name="content" required class="bg-light w-100 rounded" rows="4" placeholder="<%= user.name %>としてコメントを入力…"></textarea>
+            </div>
+            <div class="col-12 col-lg-1 mt-lg-5">
+              <button class="float-right btn btn-primary">送信</button>
+            </div>
           </div>
         </form>
       <% } else { %>
-        <a herf="/login">ログインしてコメントする…</a>
+        <div class="row">
+          <div class="col text-center">
+            <a href="/login">ログインしてコメントする…</a>
+          </div>
+        </div>
+      <% }; %>
+
+      <% if (comments) { %>
+        <div class="w-100 mt-3" style="border:1px solid #333"></div>
+      <% } else if (comments = null) { %>  <!-- 表示されない-->
+        <div class="w-100 mt-5" style="border:1px solid black"></div>
+        <p class="text-center mt-4">この投稿cardにコメントはありません</p>
       <% }; %>
 
       <!-- コメントを全件表示-->
+      <!-- まずは、replyId　がないものを表示 -->
       <% comments.forEach(comment => { %>
-        <div>
-          <img
-            class="comment-icon"
-            src="https://s3-ap-northeast-1.amazonaws.com/share-code.bucket/upload-icon/<%= comment.user.iconFileName %>"
-            alt=""
-          />
-          <span><%= comment.user.name %>
-            <span class="border border-success w-75 mt-3 rounded">
-              <%= comment.content %>
-            </span>
-          </span>
+        <% if (comment.replyId === null) { %>
+        <div class="row mt-1 ml-lg-3">
+          <div class="col-2 col-md-1 mt-2">
+            <img
+              class="comment-icon"
+              src="https://s3-ap-northeast-1.amazonaws.com/share-code.bucket/upload-icon/<%= comment.user.iconFileName %>"
+              alt=""
+            />
+          </div>
+
+          <div class="col-10 col-md-11 col-lg-10">
+            <div class="row">
+              <div class="col-12 comment-name pt-2">
+                <%= comment.user.name %>
+              </div>
+
+              <div class="col-12">
+                <p class="border border-success mt-2 rounded">
+                  <%= comment.content %>
+                </p>
+              </div>
+            </div>
+          </div>
+
+
+          <div class="col-12 col-lg-11">
+            <form action="/posts/reply/<%= post.id %>/<%= comment.id%>" method="post">
+              <input type="hidden" name="_csrf" value="<%- csrfToken %>">
+              <div class="row" id="reply<%= comment.id %>"></div>
+            </form>
+            <!-- 自分のコメントなら削除ボタンを出現 -->
+              <% if ( user !== 'null' ) { %>
+                <% if (user.id === comment.userId ) { %>
+                <div class="float-right">
+                  <a href="delete/<%= comment.postId %>/<%= comment.id %>">削除</a>
+                </div>
+                <% }; %>
+            
+                <span class="reply_button text-primary float-righ">
+                  <span id="a<%= comment.id %>" class="reply_button text-primary mr-3 float-right" data-a="a<%= comment.id %>" data-reply="reply<%= comment.id %>" data-comment="<%= comment.id %>" data-post="<%= comment.postId %>" onclick="reply(event)">
+                     返信
+                  </span>
+                </span>
+              <% }; %>
+          </div>
+
+          
         </div>
+        <% }; %>
+          <!-- このコメントに対する返信を取得 -->
+        <% var reply_comments = comments.filter((v) => v.replyId === comment.id ); %>
+        <% reply_comments.forEach((reply_comment) => { %>
+          
+          <div id="disply<%= comment.id %>"></div>
+
+          <div class="row ml-lg-3">
+            <div class="offset-1 col-2 col-md-1 mt-2">
+              <img
+                class="reply-icon"
+                src="https://s3-ap-northeast-1.amazonaws.com/share-code.bucket/upload-icon/<%= reply_comment.user.iconFileName %>"
+                alt=""
+              />
+            </div>
+
+            <div class="col-9 col-md-10 col-lg-9">
+              <div class="row">
+                <div class="col-12 comment-name pt-2">
+                  <%= reply_comment.user.name %>
+                </div>
+
+                <div class="col-12">
+                  <p class="border border-success mt-2 rounded">
+                    <%= reply_comment.content %>
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-12 col-lg-11">
+              <form action="/posts/reply/<%= post.id %>/<%= comment.id%>" method="post">
+                <input type="hidden" name="_csrf" value="<%- csrfToken %>">
+                <div class="row" id="reply<%= comment.id %>"></div>
+              </form>
+              <!-- 自分のコメントなら削除ボタンを出現 -->
+              <% if ( user !== 'null' ) { %>
+                <% if (user.id === reply_comment.userId ) { %>
+                  <div class="float-right">
+                    <a href="delete/<%= comment.postId %>/<%= reply_comment.id %>">削除</a>
+                  </div>
+                <% }; %>
+                
+                <span class="reply_button text-primary float-righ">
+                  <span id="a<%= comment.id %>" class="reply_button text-primary mr-3 float-right" data-a="a<%= comment.id %>" data-reply="reply<%= comment.id %>" data-comment="<%= comment.id %>" data-post="<%= comment.postId %>" onclick="reply(event)">
+                    返信
+                 </span>
+                </span>
+              <% }; %>
+            </div>
+          </div>
+        <% }); %>
       <% }); %>
 
+      <script>
+        // 再生中は、「停止」ボタンにする
+        function sound(event) { // eventを使ってどの要素が押されたか判断
+          var sound_target = event.currentTarget;　// data属性　event で解決
+          const audioId = sound_target.dataset['audio']; // data-○○要素の取得
+          var target = document.getElementById(audioId);
+          if ( !target.paused ) {
+            sound_target.innerHTML = 'プレイヤーを表示<i class="fas fa-play-circle fa-fw fa-2x"></i>'
+            target.removeAttribute("controls");
+            target.pause();
+          } else {
+            sound_target.innerHTML = 'プレイヤーを消す';
+            target.setAttribute("controls","controls");
+            target.play();
+          };
+        };
+
+        //　返信覧追加
+        function reply(event) {
+          var reply_target = event.currentTarget; // eventが発生した場所
+          const replyId = reply_target.dataset['reply'];
+          const a_tagId = reply_target.dataset['a'];
+          const commentId = reply_target.dataset['comment'];
+          const postId = reply_target.dataset['post'];
+          var target = document.getElementById(replyId);
+          var button_target = document.getElementById(a_tagId);
+          var A = '<div class="col-1"><i class="fas fa-level-up-alt fa-fw fa-2x fa-flip-horizontal float-right text-secondary"></i></div>';
+          var B = '<div class="col-1 mt-1"><img class="reply-icon"src="https://s3-ap-northeast-1.amazonaws.com/share-code.bucket/upload-icon/<%= user.iconFileName %>"alt=""/></div><div class="col-10"><textarea name="reply_content" required class="bg-light w-100 rounded" rows="4" placeholder="<%= user.name %>としてコメントに返信する…"></textarea></div>';
+          button_target.remove();
+          target.innerHTML = `${A}${B}<div class="col-2"><button class="btn btn-secondary float-right">送信する</button></div>`;
+        };
+
+        // 返信を表示する処理
+        function disply(event) {
+          var disply_target = event.currentTarget;
+          const displyId = disply_target.dataset['disply'];
+          const btnId = disply_target.dataset['btn'];
+          var target = document.getElementById(displyId);
+          var btnTarget = document.getElementById(btnId);
+          var G = 
+          btnTarget.remove();
+
+        };
+      </script>
+      <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+      <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
       <script src="/javascripts/bunble.js"></script>
     </div>
   </body>

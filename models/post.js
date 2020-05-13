@@ -1,7 +1,7 @@
 //  厳格モード　sequelizeの読み込み
-'use strict';
-const loader = require('./sequelize-loader');
-const Sequelize = loader.Sequelize;
+'use strict'
+const loader = require('./sequelize-loader')
+const Sequelize = loader.Sequelize
 
 const Post = loader.database.define(
   'posts',
@@ -17,6 +17,10 @@ const Post = loader.database.define(
     userId: {
       type: Sequelize.INTEGER,
       allowNull: false,
+    },
+    // オーディオファイルの名前
+    audioFileName: {
+      type: Sequelize.STRING,
     },
     //メジャーキーかどうか
     isMajor: {
@@ -55,7 +59,7 @@ const Post = loader.database.define(
   {
     //　テーブル名の固定
     freezeTableName: true,
-  }
-);
+  },
+)
 
-module.exports = Post;
+module.exports = Post

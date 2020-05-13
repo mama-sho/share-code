@@ -2,74 +2,176 @@
 <!DOCTYPE html>
 <html lang="ja">
   <%- include("../include/head") %>
-  <body>
+  <body id="new-body">
     <!-- ヘッダー部分 -->
-    <nav class="navbar navbar-expand-sm navbar-dark bg-dark mb-3">
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
       <div class="container">
-        <h2 class="navbar-brand font-italic">Share Code</h2>
-        <ul class="navbar-nav">
-          <li class="nav-item"><a href="/posts" class="nav-link">トップ</a></li>
-          <li class="nav-item"><a href="/user-list" class="nav-link">ユーザー</a></li>
-          <li class="nav-item active"><a href="/posts/new" class="nav-link">新規投稿</a></li>
-          <li class="nav-item"><a href="/mypage" class="nav-link">マイページ</a></li>
-          <li class="nav-item"><a href="/login" class="nav-link">ログイン</a></li>
-        </ul>
+        <h2 class="navber-brand font-italic text-light">Share code</h2>
+        <div class="float-right">
+          <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="ナビゲーションの切替">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse" id="navbarNav">
+            <div class="float-right d-none d-sm-block">
+              <ul class="navbar-nav">
+                <li class="nav-item ml-1">
+                  <a class="nav-link ml-2" href="/">Top</a>
+                </li>
+                <li class="nav-item ml-1">
+                  <a class="nav-link ml-2" href="/user-list">Users</a>
+                </li>
+                <li class="nav-item active ml-1">
+                  <a class="nav-link ml-2" href="/posts/new">New</a>
+                </li>
+                <li class="nav-item ml-1">
+                  <a class="nav-link ml-2" href="/mypage">My page</a>
+                </li>
+                <li class="nav-item ml-1">
+                  <a class="nav-link ml-2" href="/login">Login</a>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
       </div>
     </nav>
 
+    <!--　メイン　-->
+  <form method="post" enctype="multipart/form-data">
+    <input type="hidden" name="_csrf" value="<%- csrfToken %>">
     <div class="container">
-      <h2><%= user.name %></h2>
-        <form method="post">
-          <!--コード進行のKey を指定させる-->
-          <p>この曲のKeyを選択してください</p>
-          <select name="progKey" size="1" required>
-            <option value="null">わからない</option>
-            <option value="C">C</option>
-            <option value="C#">C#</option>
-            <option value="D">D</option>
-            <option value="D#">D#</option>
-            <option value="E">E</option>
-            <option value="F">F</option>
-            <option value="F#">F#</option>
-            <option value="G">G</option>
-            <option value="G#">G#</option>
-            <option value="A">A</option>
-            <option value="A#">A#</option>
-            <option value="B">B</option>
-            <option value="Cm">Cm</option>
-            <option value="C#m">C#m</option>
-            <option value="Dm">Dm</option>
-            <option value="D#m">D#m</option>
-            <option value="Em">Em</option>
-            <option value="Fm">Fm</option>
-            <option value="F#m">F#m</option>
-            <option value="Gm">Gm</option>
-            <option value="G#m">G#m</option>
-            <option value="Am">Am</option>
-            <option value="A#m">A#m</option>
-            <option value="Bm">Bm</option>
-          </select>
-       <div class="card w-75">
-          <div class="card-header font-weight-bold bg-secondary"><img class="card-icon" src="https://s3-ap-northeast-1.amazonaws.com/share-code.bucket/upload-icon/<%= user.iconFileName %>" alt=""><span class="ml-3"><%= user.name %></span></div>
-          <div class="card-body">
-            <p>曲名を入力してください</p>
-              <h4 class="card-title"><input required name="songName" placeholder="タイトルを入力"></h4>
-            <p>オリジナル曲？<br>
-              <input type="radio" name="isOriginal" value="true"> はい
-              <input type="radio" name="isOriginal" value="false"> いいえ
-            </p>
-            <input type="radio" name="isMajor" value="true" checked> メジャーKey
-            <input type="radio" name="isMajor" value="false"> マイナーKey
-            <p>投稿コード進行</p>
-              <p class="card-text"><textarea required class="code-prog" cols="30" rows="9" name="codeProg" placeholder="小節は「|」で区切ってください 例　:  G# | A# | Gm F | Cm"></textarea></p>
-            <p>概要覧</p>
-            <p><textarea cols="65" rows="7" name="memo" placeholder="このコード進行について"></textarea></p>
+      <h1 class="pl-4 mt-2 font-italic text-dark">New Card</h1>
+      <p class="text-dark">ここでは自分の思いついたコード進行を Card　として作成し、共有します。作成したCardはマイページでいつでも見ることが可能です</p>
+      <div class="w-100 h-100" style="border:1px solid #333"></div>
+      
+      <div class="row">
+        <div class="col-12 col-md-9">
+          <div class="card mb-5 mt-4">
+            <div class="card-header bg-dark">
+              <img class="card-icon" src="https://s3-ap-northeast-1.amazonaws.com/share-code.bucket/upload-icon/<%= user.iconFileName %>" alt="">
+              <span class="ml-3 font-weight-bold text-light"><%= user.name %></span>
+            </div>
+            <div card="card-body">
+              <div class="row">
+                <div class="col-8">
+                  <h4 class="card-title ml-3 mt-3">
+                    <input class="rounded w-100" required name="songName" placeholder="Card Name">
+                  </h4>
+                </div>
+                <div class="col-4 mt-4">
+                  <p>original ?
+                    <input type="radio" name="isOriginal" value="true" checked>yes
+                    <input type="radio" name="isOriginal" value="false">no
+                  </p>
+                </div>
+              </div>
+              <div class="row">
+                <div class="ml-3 mt-3 col-4">
+                  <input type="radio" name="isMajor" value="true" checked> Major Key
+                  <input type="radio" name="isMajor" value="false"> minor Key
+                </div>
+                <div class="col-4 offset-3">
+                  <label for="file_upload" class="audiofile">
+                    AudioFileの選択
+                    <i class="fas fa-file-audio fa-fw fa-4x text-secondary border"></i>
+                    <input type="file" id="file" name="audio" accept="audio/*" onchange="$('#fake_text_box').val($(this).val())">
+                    <input type="text" id="file_upload" value="ファイル選択" onClick="$('#file').click();">
+                  </label>
+                </div>
+              </div>
+              <div class="p-3 col-12">
+                <div class="row">
+                  <h4 class="ml-3 col-4">Score area</h4>
+                  <div class="col-5 offset-2 mt-2">
+                    <span>is Key?</span>
+                    <input type="text" name="progKey" pattern="^[0-9A-Za-z]+$" required style="width: 30px;">
+                    <span class="text-secondary">※Keyが不明の場合は空</span>
+                  </div>
+                </div>
+                <div onkeypress="forkstest(event)" id="output_area" class="output-area border" placeholder=": G# | A# | Gm F | Cm">
+                </div>
+              </div>
+              <div class="pl-3 col-12">
+                <h5 class="ml-3">column</h5>
+                <textarea placeholder="このコード進行について、またはURL" class="w-100" name="memo" cols="30" rows="10"></textarea>
+              </div>
+            </div>
+          </div>
+        </div>
+
+
+        <div class="col-12 col-md-3">
+          <h2 class="mt-5 text-light"><%= user.name %></h2>
+          <span class="text-light">select file</span>
+          <input class="w-100" type="text" id="fake_text_box" value="" readonly onClick="$('#file').click();">
+          <div class="w-100 mt-5">
+            <span class="text-light">入力エリア</span>
+            <textarea name="codeProg" id="input_area" cols="24" rows="10" class="rounded" onkeyup="output(event)"></textarea>
+          </div>
+          <div class="mt-5 float-right">
             <button class="btn btn-dark">新規作成</button>
-         </div>
-       </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+    
+
        <!--最後に今までの自分が投稿したコード進行を表示する-->
-       <!--ログイン機能を実装するまで、userIdを指定する-->
-     <script src="/javascripts/bunble.js"></script>
+      <script>
+
+        function forkstest (event) {
+          var target = document.getElementById('output_area');
+          var input = $('#output_area').text();　// div要素の中身を取得
+          var test = event.target.value;
+          console.log(input +'div要素の中身取得-ok');
+          console.log(event.key);
+
+          input_last = '<span style="color: blue;">' + event.key + '</span>';
+          target.insertAdjacentHTML('beforeend', input_last); //html として出力
+
+          target.focus( function() {
+            console.log('focus-test');
+          });
+          target.setSelectionRange(1, 1); //カーソルの位置を末尾にする
+        };
+
+        function output (event) {
+          var target = document.getElementById('output_area');
+          var event_input = event.target.value; // 中身を取得
+          var input = document.getElementById('input_area');
+
+          // innerHtml のやり方
+          // 配列に替えて、一つずつ処理を加える 色を変えたり…空間開けたり
+          var input_value = input.value;
+          var input_Array = input_value.split('');
+          console.log(input_Array);
+
+          // 一文字ずつ処理　
+          var Array = [];
+          input_Array.forEach((v) => {
+            if (v === 'A' || v === 'C' || v === 'D' || v === 'B' || v === 'E' || v === 'F' || v === 'G') {
+              Array.push('<span class="ml-2 text-primary" style="font-size: 3.0rem;">' + v + '</span>');
+            } else if (v === '|') {
+              Array.push('<span class="ml-2 mr-2">' + v + '</span>');
+            } else {
+              Array.push('<span>' + v + '</span>');
+            };
+          });
+          console.log(Array);
+
+          // 配列を戻して、html に表示する
+          var test = Array.join(',').replace(/,/g, '');
+          console.log(test);
+          target.innerHTML = test;
+
+        };
+
+      </script>
+      <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+      <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+      <script src="/javascripts/bunble.js"></script>
     </div>
   </body>
 </html>
