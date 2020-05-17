@@ -47,10 +47,8 @@ body {
   backdrop-filter: blur(3px) grayscale(90%);
 }
 #userlist-body {
-  width: 100vw;
-  height: 100vw;
   background-image: url();
-  background-color: cornsilk;
+  background-color: rgb(232, 255, 239);
   background-size: cover;
   background-attachment: fixed;
   background-repeat: no-repeat;
@@ -76,10 +74,18 @@ form {
 }
 
 .fa-comment {
-  color: gray;
+  color: rgb(147, 174, 233);
 }
 .fa-heart {
-  color: grey;
+  color: rgb(226, 172, 226);
+}
+.fa-heart:hover {
+  color: rgb(250, 70, 205);
+  font-size: 21px;
+}
+.fa-comment:hover {
+  color: #00b7ff;
+  font-size: 21px;
 }
 .audiofile {
   cursor: pointer;
@@ -94,7 +100,8 @@ label > input {
 
 /* user-list css */
 .userlist-Card {
-  box-shadow: 2px 2px 0px 0px black;
+  background-color: rgb(241, 255, 252, 0.44);
+  box-shadow: 1px 1px 0px 0px black;
 }
 .userlist-Card:hover {
   box-shadow: none;
@@ -196,6 +203,12 @@ label > input {
 }
 
 /*  card-css */
+.new-card {
+  width: 850px;
+}
+.detail-card {
+  width: 850px;
+}
 .card {
   box-shadow: 0 0 8px grey;
 }
@@ -243,9 +256,15 @@ label > input {
 }
 /* post.new css */
 .output-area {
-  font-size: 40px;
   border: rgb(51, 49, 45) 4px;
   border-radius: 2%;
   border-color: darkgoldenrod;
   min-height: 300px;
+}
+
+.code-ture {
+  font-size: 40px;
+}
+.code-false {
+  font-size: 28px;
 }

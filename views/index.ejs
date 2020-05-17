@@ -2,7 +2,7 @@
 <html lang="ja">
   <%- include('include/head') %>
   <body id="post-body">
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+    <nav class="navbar navbar-expand-lg navbar-dark fixed-top" style="background-color: black;">
       <div class="container">
         <h2 class="navber-brand font-italic text-light">Share code</h2>
         <div class="float-right">
@@ -84,7 +84,7 @@
         <div class="col-md-6">
           <div class="card mt-2">
             <% if (post.isOriginal === "true") { %>
-            <div class="card-header font-weight-bold bg-dark">
+            <div class="card-header font-weight-bold" style="background-color: black;">
               <img
                 class="card-icon"
                 src="https://s3-ap-northeast-1.amazonaws.com/share-code.bucket/upload-icon/<%= post.user.iconFileName %>"
@@ -95,15 +95,15 @@
               </span>
               <span class="float-right mt-1">
                 <a href="/favorite/<%= post.id %>"><!--/:postId-->
-                  <i class="fas fa-heart fa-fw fa-lg" style="color: #ca2758;"></i>
+                  <i class="fas fa-heart heart fa-fw fa-lg"></i>
                 </a>
-                <span>
+                <span class="text-light">
                   <%= favorites.filter((v) => post.id === v.postId).length%>
-                </span>
+                </span class="text-light">
                 <a href="/post/<%= post.id %>">
-                  <i class="fas fa-comment fa-fw ml-2 fa-lg" style="color: rgb(78, 50, 206);"></i>
+                  <i class="fas fa-comment comment fa-fw ml-2 fa-lg"></i>
                 </a>
-                <span>
+                <span class="text-light">
                   <%= comments.filter((v) => post.id === v.postId).length %>
                 </span>
               </span>
@@ -111,7 +111,7 @@
             </div>
 
             <% } else { %>
-            <div class="card-header font-weight-bold bg-dark">
+            <div class="card-header font-weight-bold" style="background-color: black;">
               <img
                 class="card-icon"
                 src="https://s3-ap-northeast-1.amazonaws.com/share-code.bucket/upload-icon/<%= post.user.iconFileName %>"
@@ -122,15 +122,15 @@
               </span>
               <span class="float-right mt-1">
                 <a href="/favorite/<%= post.id %>"><!--/:postId-->
-                  <i class="fas fa-heart fa-fw fa-lg" style="color: #ca2758;"></i>
+                  <i class="ha fas fa-heart heart fa-fw fa-lg"></i>
                 </a>
-                <span>
+                <span class="text-light">
                   <%= favorites.filter((v) => post.id === v.postId).length %>
                 </span>
                 <a href="/post/<%= post.id %>">
-                  <i class="fas fa-comment fa-fw ml-2 fa-lg" style="color: rgb(78, 50, 206);"></i>
+                  <i class="fas fa-comment comment fa-fw ml-2 fa-lg"></i>
                 </a>
-                <span>
+                <span class="text-light">
                   <%= comments.filter((v) => post.id === v.postId).length %>
                 </span>
               </span>

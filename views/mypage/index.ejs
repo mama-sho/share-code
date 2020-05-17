@@ -4,7 +4,7 @@
   <%- include('../include/head') %>
   <body id="mypage-body">
     <!-- ヘッダー部分 -->
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+    <nav class="navbar navbar-expand-lg navbar-dark fixed-top" style="background-color: black;">
       <div class="container">
         <h2 class="navber-brand font-italic text-light">Share code</h2>
         <div class="float-right">
@@ -39,7 +39,7 @@
     <div class="container">
       <div>
         <div class="row">
-          <h1 class="pl-5 font-italic text-light">My page</h1>
+          <h1 class="pl-5 mt-5 pt-4 font-italic">My page</h1>
           <div class="w-100 h-100" style="border:1px solid #333"></div>
 
           <div class="col-md-6 pt-4 pl-5">
@@ -52,7 +52,7 @@
             </div>
           </div>
 
-          <div class="col-12 col-md-6 d-flex flex-column row-h1 text-light">
+          <div class="col-12 col-md-6 d-flex flex-column row-h1">
             <div class="item-h1 mt-5">
               <label class="font-weight-bold">username</label>
               <h1 class="pl-3"><%= user.name %></h1>
@@ -107,8 +107,8 @@
       </div>
     </div>
 
-      <div class="container">
-      <h3 class="mt-5 ml-3 text-light font-italic">My card</h3>
+    <div class="container">
+      <h3 class="mt-5 ml-3 font-italic">My card</h3>
       <div class="w-100 mt-2" style="border:1px solid #333"></div>
       <!--自分が投稿したcard-->
       <div class="row">
@@ -123,16 +123,20 @@
                 src="https://s3-ap-northeast-1.amazonaws.com/share-code.bucket/upload-icon/<%= post.user.iconFileName %>"
                 alt=""
               />
-              <%= post.user.name %>
+              <div class="text-light ml-1">
+                <%= post.user.name %>
+              </div>
               <span class="float-right">
                 <a href="/favorite/<%= post.id %>"><!--/:postId-->
-                  <i class="far fa-heart fa-fw fa-lg"></i>
+                  <i class="fas fa-heart fa-fw fa-lg"></i>
                 </a>
-                <span>
+                <span class="text-light">
                   <%= favorites.filter((v) => post.id === v.postId).length%>
                 </span>
-                <i class="far fa-comment fa-fw ml-2 fa-lg"></i>
-                <span>
+                <a href="/posts/<%= post.id %>">
+                  <i class="fas fa-comment fa-fw ml-2 fa-lg"></i>
+                </a>
+                <span class="text-light">
                   <%= comments.filter((v) => post.id === v.postId).length %>
                 </span>
               </span>
@@ -145,18 +149,27 @@
                 src="https://s3-ap-northeast-1.amazonaws.com/share-code.bucket/upload-icon/<%= post.user.iconFileName %>"
                 alt=""
               />
-              <%= post.user.name %>
+              <span class="text-light ml-1">
+                <%= post.user.name %>
+              </span>
               <span class="float-right">
-                <a href="/favorite/<%= post.id %>"><!--/:postId-->
-                  <i class="far fa-heart fa-fw fa-lg"></i>
-                </a>
                 <span>
-                  <%= favorites.filter((v) => post.id === v.postId).length %>
+                  <a href="/favorite/<%= post.id %>"><!--/:postId-->
+                    <i class="fas fa-heart fa-fw fa-lg"></i>
+                  </a>
+                  <span class="text-light">
+                    <%= favorites.filter((v) => post.id === v.postId).length %>
+                  </span>
                 </span>
-                <i class="far fa-comment fa-fw ml-2 fa-lg"></i>
                 <span>
-                  <%= comments.filter((v) => post.id === v.postId).length %>
+                  <a href="/posts/<%= post.id %>">
+                    <i class="fas fa-comment fa-fw ml-2 fa-lg"></i>
+                  </a>
+                  <span class="text-light">
+                    <%= comments.filter((v) => post.id === v.postId).length %>
+                  </span>
                 </span>
+              </span>
             </div>
             <% }; %>
 
@@ -190,16 +203,19 @@
                 </aidio>
               <% }; %>
             </div>
-
           </div>
-
         </div>
       <% }; %>
       <% }); %>
       </div>
+      <div class="col-2 offset-10 mt-2">
+        <span class="text-right">
+          <a href="/posts/new">Cardを作成する</a>
+        </span>
+      </div>
 
       <!--自分がいいねしたcard-->
-      <p class="text-center mt-5 text-light">いいねしたcard</p>
+      <p class="text-center mt-3">いいねしたcard</p>
       <div class="w-100 mt-2" style="border:1px solid #333"></div>
 
       <div class="row">
@@ -216,16 +232,20 @@
                   src="https://s3-ap-northeast-1.amazonaws.com/share-code.bucket/upload-icon/<%= post.user.iconFileName %>"
                   alt=""
                 />
-                <%= post.user.name %>
+                <span class="text-light ml-1">
+                  <%= post.user.name %>
+                </span>
                 <span class="float-right">
                   <a href="/favorite/<%= post.id %>"><!--/:postId-->
-                    <i class="far fa-heart fa-fw fa-lg"></i>
+                    <i class="fas fa-heart fa-fw fa-lg"></i>
                   </a>
-                  <span>
+                  <span class="text-light">
                     <%= favorites.filter((v) => post.id === v.postId).length%>
                   </span>
-                  <i class="far fa-comment fa-fw ml-2 fa-lg"></i>
-                  <span>
+                  <a href="/posts/<%= post.id %>">
+                    <i class="fas fa-comment fa-fw ml-2 fa-lg"></i>
+                  </a>
+                  <span class="text-light">
                     <%= comments.filter((v) => post.id === v.postId).length %>
                   </span>
                 </span>
@@ -238,16 +258,20 @@
                   src="https://s3-ap-northeast-1.amazonaws.com/share-code.bucket/upload-icon/<%= post.user.iconFileName %>"
                   alt=""
                 />
-                <%= post.user.name %>
+                <span class="text-light ml-1">
+                  <%= post.user.name %>
+                </span>
                 <span class="float-right">
                   <a href="/favorite/<%= post.id %>"><!--/:postId-->
-                    <i class="far fa-heart fa-fw fa-lg"></i>
+                    <i class="fas fa-heart fa-fw fa-lg"></i>
                   </a>
-                  <span>
+                  <span class="text-light">
                     <%= favorites.filter((v) => post.id === v.postId).length %>
                   </span>
-                  <i class="far fa-comment fa-fw ml-2 fa-lg"></i>
-                  <span>
+                  <a href="/posts/<%= post.id %>">
+                    <i class="fas fa-comment fa-fw ml-2 fa-lg"></i>
+                  </a>
+                  <span class="text-light">
                     <%= comments.filter((v) => post.id === v.postId).length %>
                   </span>
               </div>
@@ -292,7 +316,7 @@
 
 
       <!-- 自分がコメントしたcard -->
-      <p class="text-center mt-5 text-light">コメントしたcard</p>
+      <p class="text-center mt-5">コメントしたcard</p>
       <div class="w-100 mt-2" style="border:1px solid #333"></div>
 
       <div class="row">
@@ -308,16 +332,20 @@
                   src="https://s3-ap-northeast-1.amazonaws.com/share-code.bucket/upload-icon/<%= post.user.iconFileName %>"
                   alt=""
                 />
-                <%= post.user.name %>
+                <span class="text-light ml-1">
+                  <%= post.user.name %>
+                </span>
                 <span class="float-right">
                   <a href="/favorite/<%= post.id %>"><!--/:postId-->
-                    <i class="far fa-heart fa-fw fa-lg"></i>
+                    <i class="fas fa-heart fa-fw fa-lg"></i>
                   </a>
-                  <span>
+                  <span class="text-light">
                     <%= favorites.filter((v) => post.id === v.postId).length%>
                   </span>
-                  <i class="far fa-comment fa-fw ml-2 fa-lg"></i>
-                  <span>
+                  <a href="/posts/<%= post.id %>">
+                    <i class="fas fa-comment fa-fw ml-2 fa-lg"></i>
+                  </a>
+                  <span class="text-light">
                     <%= comments.filter((v) => post.id === v.postId).length %>
                   </span>
                 </span>
@@ -330,16 +358,20 @@
                   src="https://s3-ap-northeast-1.amazonaws.com/share-code.bucket/upload-icon/<%= post.user.iconFileName %>"
                   alt=""
                 />
-                <%= post.user.name %>
+                <span class="text-light ml-1">
+                  <%= post.user.name %>
+                </span>
                 <span class="float-right">
                   <a href="/favorite/<%= post.id %>"><!--/:postId-->
-                    <i class="far fa-heart fa-fw fa-lg"></i>
+                    <i class="fas fa-heart fa-fw fa-lg"></i>
                   </a>
-                  <span>
+                  <span class="text-light">
                     <%= favorites.filter((v) => post.id === v.postId).length %>
                   </span>
-                  <i class="far fa-comment fa-fw ml-2 fa-lg"></i>
-                  <span>
+                  <a href="/posts/<%= post.id %>">
+                    <i class="fas fa-comment fa-fw ml-2 fa-lg"></i>
+                  </a>
+                  <span class="text-light">
                     <%= comments.filter((v) => post.id === v.postId).length %>
                   </span>
               </div>

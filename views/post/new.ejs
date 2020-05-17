@@ -4,7 +4,7 @@
   <%- include("../include/head") %>
   <body id="new-body">
     <!-- ヘッダー部分 -->
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <nav class="navbar navbar-expand-lg navbar-dark" style="background-color: black;">
       <div class="container">
         <h2 class="navber-brand font-italic text-light">Share code</h2>
         <div class="float-right">
@@ -40,13 +40,12 @@
   <form method="post" enctype="multipart/form-data">
     <input type="hidden" name="_csrf" value="<%- csrfToken %>">
     <div class="container">
-      <h1 class="pl-4 mt-2 font-italic text-dark">New Card</h1>
-      <p class="text-dark">ここでは自分の思いついたコード進行を Card　として作成し、共有します。作成したCardはマイページでいつでも見ることが可能です</p>
+      <h1 class="pl-4 mt-3 font-italic text-dark">New Card</h1>
+      <p class="">ここでは自分の思いついたコード進行を Card　として作成し、共有します。作成したCardはマイページでいつでも見ることが可能です</p>
       <div class="w-100 h-100" style="border:1px solid #333"></div>
-      
       <div class="row">
-        <div class="col-12 col-md-9">
-          <div class="card mb-5 mt-4">
+        <div class="">
+          <div class="card new-card mb-5 mt-4">
             <div class="card-header bg-dark">
               <img class="card-icon" src="https://s3-ap-northeast-1.amazonaws.com/share-code.bucket/upload-icon/<%= user.iconFileName %>" alt="">
               <span class="ml-3 font-weight-bold text-light"><%= user.name %></span>
@@ -93,19 +92,23 @@
               </div>
               <div class="pl-3 col-12">
                 <h5 class="ml-3">column</h5>
-                <textarea placeholder="このコード進行について、またはURL" class="w-100" name="memo" cols="30" rows="10"></textarea>
+                <textarea placeholder="このコード進行について、またはURL" class="w-100" name="memo" cols="30" rows="10" style="font-size: large;"></textarea>
               </div>
             </div>
           </div>
         </div>
 
 
-        <div class="col-12 col-md-3">
-          <h2 class="mt-5 text-light"><%= user.name %></h2>
-          <span class="text-light">select file</span>
-          <input class="w-100" type="text" id="fake_text_box" value="" readonly onClick="$('#file').click();">
-          <div class="w-100 mt-5">
-            <span class="text-light">入力エリア</span>
+        <div class="col-3">
+          <h2 class="mt-xl-5 text-xl-center"><%= user.name %></h2>
+          <span>select file</span>
+          <input type="text" id="fake_text_box" value="" readonly onClick="$('#file').click();">
+          <div class="w-100 mt-5 border text-center bg-white rounded" required>
+            <span class="pt-5">
+              <p>Score area入力…</p>
+              <span>「|」で小節を区切りましょう　　 C|G|Am|B F|</span>
+            </span>
+            <p>入力エリア ※半角</p>
             <textarea name="codeProg" id="input_area" cols="24" rows="10" class="rounded" onkeyup="output(event)"></textarea>
           </div>
           <div class="mt-5 float-right">
@@ -113,7 +116,6 @@
           </div>
         </div>
       </div>
-
     </div>
     
 
@@ -145,17 +147,19 @@
           // 配列に替えて、一つずつ処理を加える 色を変えたり…空間開けたり
           var input_value = input.value;
           var input_Array = input_value.split('');
-          console.log(input_Array);
+          console.log(event);
 
           // 一文字ずつ処理　
           var Array = [];
           input_Array.forEach((v) => {
             if (v === 'A' || v === 'C' || v === 'D' || v === 'B' || v === 'E' || v === 'F' || v === 'G') {
-              Array.push('<span class="ml-2 text-primary" style="font-size: 3.0rem;">' + v + '</span>');
+              Array.push('<span class="ml-2 text-primary code-ture">' + v + '</span>');
             } else if (v === '|') {
-              Array.push('<span class="ml-2 mr-2">' + v + '</span>');
+              Array.push('<span class="ml-2 mr-2 code-ture">' + v + '</span>');
+            } else if (v === ' ') {
+              Array.push('<span class="ml-2 mr-2 code-ture">' + v + '</span>');
             } else {
-              Array.push('<span>' + v + '</span>');
+              Array.push('<span class="code-false">' + v + '</span>');
             };
           });
           console.log(Array);

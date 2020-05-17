@@ -3,7 +3,7 @@
   <%- include('../include/head') %>
   <body id="userlist-body">
     <!-- ヘッダー部分 -->
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+    <nav class="navbar navbar-expand-lg navbar-dark fixed-top" style="background-color: black;">
       <div class="container">
         <h2 class="navber-brand font-italic text-light">Share code</h2>
         <div class="float-right">
@@ -37,13 +37,13 @@
 
     <!--メイン-->
     <div class="container pt-5">
-      <h1 class="font-italic pt-4 ml-2 text-dark">User list</h1>
-      <div class="w-100" style="border:1px solid rgb(0, 0, 0)"></div>
+      <h1 class="font-italic pt-5 mt-1 ml-2 text-dark">User list</h1>
+      <div class="w-100 mb-2" style="border:1px solid rgb(0, 0, 0)"></div>
       <div class="row">
         <% users.forEach(user => { %>
           <div class="col-lg-6 p-2 userlist">
-            <a href="/user-list/detail/<%= user.id %>" class="text-dark userlist-a">
-            <div class="userlist-Card rounded p-2 bg-dark text-light">
+            <a href="/user-list/detail/<%= user.id %>">
+            <div class="userlist-Card rounded p-2 text-dark">
               <div class="row">
                 <div class="col-3 col-md-2 mr-md-3 col-lg-3">
                   <span class="ml-3">
