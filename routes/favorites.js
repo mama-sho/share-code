@@ -11,10 +11,11 @@ const Post = require('../models/post')
 const authenticationEnsurer = require('./authentication-ensurer')
 
 // <a>タグで送る 絞り込み今のpost.idとuser.id//
-router.get('/:postId', authenticationEnsurer, (req, res, next) => {
+router.get('/:id', authenticationEnsurer, (req, res, next) => {
+  console.log('test')
   Favorite.findOne({
     where: {
-      postId: req.params.postId,
+      postId: req.params.id,
       userId: req.user.id,
     },
   }).then((favorite) => {
@@ -26,17 +27,17 @@ router.get('/:postId', authenticationEnsurer, (req, res, next) => {
       })
     } else {
       Favorite.create({
-        postId: req.params.postId,
+        postId: req.params.id,
         userId: req.user.id,
       }).then(() => {
         // 通知を追加する
         Post.findOne({
-          where: { id: req.params.postId },
+          where: { id: req.params.id },
         }).then((post) => {
           Notice.create({
             senderId: req.user.id,
             receiverId: post.userId,
-            targetId: req.params.postId,
+            targetId: req.params.id,
             isReed: false,
             type: 'favorite',
           }).then(() => {

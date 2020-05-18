@@ -39,7 +39,21 @@
     <div class="container pt-5">
       <h1 class="font-italic pt-5 mt-1 ml-2 text-dark">User list</h1>
       <div class="w-100 mb-2" style="border:1px solid rgb(0, 0, 0)"></div>
+      <div class="text-right">
+        <form action="/user-list" method="GET" >
+          <select name="sort" id="">
+            <option value=""></option>
+            <option value="update">最近ログインした人</option>
+            <option value="favorite">いいね数</option>
+            <option value="post">投稿数</option>
+          </select>
+          <button class="btn btn-primary">並び替え</button>
+        </form>
+      </div>
+      <div class="w-100 mb-2" style="border:1px solid rgb(0, 0, 0)"></div>
       <div class="row">
+        <% var now = new Date(); %>
+        <% var nowTime = now.getTime(); %>
         <% users.forEach(user => { %>
           <div class="col-lg-6 p-2 userlist">
             <a href="/user-list/detail/<%= user.id %>">

@@ -48,14 +48,14 @@
                 />
                 <span class="text-light ml-3"><%= post.user.name %></span>
                 <span class="float-right mr-1 fa-lg">
-                  <i class="far fa-comment"></i>
+                  <i class="fas fa-comment"></i>
                   <span class="text-light">
                     <%= comments.length %>
                   </span>
                 </span>
                 <span class="float-right mr-3 fa-lg">
                   <a href="/favorite/<%= post.id %>">
-                    <i class="far fa-heart"></i>
+                    <i class="fas fa-heart"></i>
                   </a>
                   <span class="text-light">
                     <%= favorites.filter((v) => post.id === v.postId).length %>
@@ -156,7 +156,6 @@
               </div>
             </div>
           </div>
-
 
           <div class="col-12 col-lg-11">
             <form action="/posts/reply/<%= post.id %>/<%= comment.id%>" method="post">

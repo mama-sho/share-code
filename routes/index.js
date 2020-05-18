@@ -29,6 +29,41 @@ router.get('/', (req, res, next) => {
           },
         ],
       }).then((posts) => {
+        // 並び替え機能
+        if (req.query.sort) {
+          posts.sort(lineUp)
+          function lineUp(a, b) {
+            if (req.query.sort === 'favorite_hi') {
+              var sortA = 0
+              var sortB = 0
+              favorites.forEach((favorite) => {
+                if (a.id === favorite.postId) {
+                  sortA++
+                } else if (b.id === favorite.postId) {
+                  sortB++
+                }
+              })
+            } else if (req.query.sort === 'comment_hi') {
+              var sortA = 0
+              var sortB = 0
+              comments.forEach((comment) => {
+                if (a.id === comment.postId) {
+                  sortA++
+                } else if (b.id === comment.postId) {
+                  sortB++
+                }
+              })
+            }
+            let comparison = 0
+            if (sortA > sortB) {
+              comparison = 1
+            } else if (sortA < sortB) {
+              comparison = -1
+            }
+            return comparison * -1
+          }
+        }
+
         if (req.user) {
           User.findOne({
             where: { id: req.user.id },

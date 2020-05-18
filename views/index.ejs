@@ -66,11 +66,12 @@
         <div class="offset-0 offset-md-2 col-7 col-md-6">
           <form action="/" method="GET">
             <div class="float-right">
-              <select name="select">
+              <select name="sort">
+                <option value=""></option>
                 <option value="favorite_hi">いいね順</option>
                 <option value="comment_hi">コメント順</option>
               </select>
-              <button class="btn btn-dark">並び替え</button>
+              <button class="btn btn-primary">並び替え</button>
             </div>
           </form>
         </div>
@@ -94,13 +95,13 @@
                 <%= post.user.name %>
               </span>
               <span class="float-right mt-1">
-                <a href="/favorite/<%= post.id %>"><!--/:postId-->
+                <a href="/favorite/<%= post.id %>">
                   <i class="fas fa-heart heart fa-fw fa-lg"></i>
                 </a>
                 <span class="text-light">
                   <%= favorites.filter((v) => post.id === v.postId).length%>
                 </span class="text-light">
-                <a href="/post/<%= post.id %>">
+                <a href="/posts/<%= post.id %>">
                   <i class="fas fa-comment comment fa-fw ml-2 fa-lg"></i>
                 </a>
                 <span class="text-light">
@@ -121,13 +122,13 @@
                 <%= post.user.name %>
               </span>
               <span class="float-right mt-1">
-                <a href="/favorite/<%= post.id %>"><!--/:postId-->
+                <a href="/favorite/<%= post.id %>">
                   <i class="ha fas fa-heart heart fa-fw fa-lg"></i>
                 </a>
                 <span class="text-light">
                   <%= favorites.filter((v) => post.id === v.postId).length %>
                 </span>
-                <a href="/post/<%= post.id %>">
+                <a href="/posts/<%= post.id %>">
                   <i class="fas fa-comment comment fa-fw ml-2 fa-lg"></i>
                 </a>
                 <span class="text-light">

@@ -37,7 +37,7 @@
     <!-- メイン -->
     <div class="container pt-5">
       <div class="row mt-2">
-        <h1 class="pl-5 mt-3 text-light"><%= user.name %> profile</h1>
+        <h1 class="pl-5 mt-3"><%= user.name %> profile</h1>
         <div class="w-100 h-100" style="border:1px solid #333"></div>
 
         <div class="col-12 col-md-6 pt-4 pl-5">
@@ -50,7 +50,7 @@
           </div>
         </div>
 
-        <div class="col-6 d-flex flex-column row-h1 text-light">
+        <div class="col-6 d-flex flex-column row-h1">
           <div class="item-h1 mt-5">
             <label class="font-weight-bold">username</label>
             <h1 class="pl-3"><%= user.name %></h1>
@@ -66,12 +66,12 @@
 
       <!-- 紹介文 -->
       <p class="ml-3 mt-4">profile</p>
-      <div class="col-8 border rounded bg-light">
+      <div class="col-12 border rounded bg-light">
         <span><%= user.introduction %></span>
       </div>
 
       <!-- この人のCardを表示 -->
-      <h2 class="font-italic mt-5 ml-2 text-light">Card</h2>
+      <h2 class="font-italic mt-5 ml-2">Card</h2>
       <div class="w-100 h-100" style="border:1px solid #333"></div>
       <div class="row">
         <% posts.forEach(post => { %>
@@ -88,12 +88,12 @@
                 <%= post.user.name %>
                 <span class="float-right">
                   <a href="/favorite/<%= post.id %>"><!--/:postId-->
-                    <i class="far fa-heart fa-fw fa-lg"></i>
+                    <i class="fas fa-heart fa-fw fa-lg"></i>
                   </a>
                   <span>
                     <%= favorites.filter((v) => post.id === v.postId).length%>
                   </span>
-                  <i class="far fa-comment fa-fw ml-2 fa-lg"></i>
+                  <i class="fas fa-comment fa-fw ml-2 fa-lg"></i>
                   <span>
                     <%= comments.filter((v) => post.id === v.postId).length %>
                   </span>
@@ -110,12 +110,12 @@
                 <%= post.user.name %>
                 <span class="float-right">
                   <a href="/favorite/<%= post.id %>"><!--/:postId-->
-                    <i class="far fa-heart fa-fw fa-lg"></i>
+                    <i class="fas fa-heart fa-fw fa-lg"></i>
                   </a>
                   <span>
                     <%= favorites.filter((v) => post.id === v.postId).length %>
                   </span>
-                  <i class="far fa-comment fa-fw ml-2 fa-lg"></i>
+                  <i class="fas fa-comment fa-fw ml-2 fa-lg"></i>
                   <span>
                     <%= comments.filter((v) => post.id === v.postId).length %>
                   </span>
@@ -130,9 +130,6 @@
                 <span>
                   <a href="/posts/<%= post.id %>">詳細</a>
                 </sapn>
-                <span class="ml-3">
-                  <a href="/mypage/destroy/<%= post.id %>">削除する</a>
-                </span>
   
                 <% if(post.audioFileName !== 'no-audio') { %>
                   <span class="float-right mr-2">

@@ -35,7 +35,10 @@ router.get('/', authenticationEnsurer, (req, res, next) => {
             },
           ],
         }).then((posts) => {
-          User.findOne({ where: { id: req.user.id } }).then((user) => {
+          var now = new Date()
+          User.findOne({
+            where: { id: req.user.id },
+          }).then((user) => {
             //renderの第二引数で値をテンプレートエンジンに渡している フォルダ名の指定でindexが読み込まれている
             res.render('mypage', {
               comments: comments,

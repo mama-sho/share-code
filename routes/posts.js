@@ -139,6 +139,7 @@ router.get('/:id', csrfProtection, (req, res, next) => {
             comments: comments,
             favorites: favorites,
             user: 'null',
+            csrfToken: req.csrfToken(),
           })
         }
       })

@@ -6,8 +6,6 @@ const Favorites = require('../models/favorite')
 const Post = require('../models/post')
 const Comment = require('../models/comment')
 
-// 並び替え
-
 // ユーザー一覧ページ
 router.get('/', (req, res, next) => {
   User.findAll().then((users) => {
@@ -31,6 +29,35 @@ router.get('/', (req, res, next) => {
           }).length
           return user
         })
+        // 並び替え機能
+        if (req.query.sort) {
+          users.sort(lineUp)
+          function lineUp(a, b) {
+            if (req.query.sort === 'favorite') {
+              var sortA = a.favorite
+              var sortB = b.favorite
+            } else if (req.query.sort === 'post') {
+              var sortA = 0
+              var sortB = 0
+              posts.forEach((post) => {
+                if (a.id === post.userId) {
+                  sortA++
+                } else if (b.id === post.userId) {
+                  sortB++
+                }
+              })
+            }
+
+            let comparison = 0
+            if (sortA > sortB) {
+              comparison = 1
+            } else if (sortA < sortB) {
+              comparison = -1
+            }
+            return comparison * -1
+          }
+        }
+
         res.render('user-list', {
           users: users,
           posts: posts,
