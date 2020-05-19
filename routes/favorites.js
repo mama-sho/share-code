@@ -23,7 +23,7 @@ router.get('/:id', authenticationEnsurer, (req, res, next) => {
     // すでに、情報がある場合は、削除する
     if (favorite) {
       favorite.destroy().then(() => {
-        res.redirect('/posts')
+        res.redirect('/')
       })
     } else {
       Favorite.create({
@@ -41,7 +41,7 @@ router.get('/:id', authenticationEnsurer, (req, res, next) => {
             isReed: false,
             type: 'favorite',
           }).then(() => {
-            res.redirect('/posts')
+            res.redirect('/')
           })
         })
       })
