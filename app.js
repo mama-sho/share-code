@@ -8,6 +8,7 @@ var helmet = require('helmet')
 var passport = require('passport')
 var LocalStrategy = require('passport-local').Strategy
 var session = require('express-session')
+var flash = require('connect-flash')
 
 require('dotenv').config()
 //今回追加したもの
@@ -102,6 +103,7 @@ app.set('views', path.join(__dirname, 'views'))
 app.set('view engine', 'ejs')
 
 // その他、使用することを宣言
+app.use(flash())
 app.use(fileupload())
 app.use(logger('dev'))
 app.use(express.json())

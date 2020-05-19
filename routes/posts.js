@@ -6,14 +6,15 @@ const authenticationEnsurer = require('./authentication-ensurer')
 const csrf = require('csurf')
 const csrfProtection = csrf({ cookie: true })
 
+const Sequelize = require('sequelize')
+const Op = Sequelize.Op
+
 //　モデルの読み込み
 const User = require('../models/user')
 const Post = require('../models/post')
 const Comment = require('../models/comment')
 const Favorite = require('../models/favorite')
 const Noitce = require('../models/notice')
-
-// 認証機能の読み込み 引数に加えることで有効
 const fs = require('fs')
 const AWS = require('aws-sdk')
 require('date-utils')
@@ -172,12 +173,15 @@ router.post('/:id', authenticationEnsurer, csrfProtection, (req, res, next) => {
 
 //  コメント削除機能
 router.get('/delete/:postId/:id', authenticationEnsurer, (req, res, next) => {
-  Comment.findOne({
-    where: { id: req.params.id },
-  }).then((comment) => {
-    comment.destroy().then(() => {
-      res.redirect(`/posts/${req.params.postId}`)
-    })
+  Comment.destroy({
+    where: {
+      [Op.or]: {
+        id: req.params.id,
+        replyId: req.params.id,
+      },
+    },
+  }).then(() => {
+    res.redirect(`/posts/${req.params.postId}`)
   })
 })
 
@@ -191,7 +195,7 @@ router.post(
       postId: req.params.postId,
       userId: req.user.id,
       content: req.body.reply_content,
-      replyId: req.params.id, //     どのコメントに対してか
+      replyId: req.params.id,
     }).then(() => {
       res.redirect(`/posts/${req.params.postId}`)
     })

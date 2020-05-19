@@ -23,7 +23,8 @@ router.post(
   csrfProtection,
   passport.authenticate('local', {
     failureRedirect: '/login',
-    failureFlash: false,
+    failureFlash: 'Eメールまたはパスワードが間違っています',
+    successFlash: 'ログインに成功しました',
   }),
   function (req, res) {
     var loginFrom = req.cookies.loginFrom
