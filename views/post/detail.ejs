@@ -65,11 +65,12 @@
               </div>
 
               <div class="card-body bg-light border-success">
-                <h4 class="card-title ml-3"><%= post.songName %></h4>
+                <h2 class="card-title ml-4"><%= post.songName %></h2>
                   <% if (post.isOriginal === "true") { %>
                     <span class="ml-5">original</span>
                   <% }; %>
-                <div id="output_area" id="input" class="output_area"><%= post.codeProg %></div>
+                <div id="output_area" id="input" class="output_area mt-3"><%= post.codeProg %></div>
+                <p class="mt-4 ml-2">備考</p>
                 <p class="w-100"><%= post.memo %></p>
 
                 <% if(post.audioFileName !== 'no-audio') { %>
