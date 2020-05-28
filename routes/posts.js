@@ -115,9 +115,6 @@ router.get('/:id', csrfProtection, (req, res, next) => {
       where: { postId: req.params.id },
     }).then((comments) => {
       Favorite.findAll().then((favorites) => {
-        post.isFavorite = favorites.some((favorite) => {
-          return favorite.userId === req.user.id && post.id === favorite.postId
-        })
         post.favoriteCount = favorites.filter(
           (v) => post.id === v.postId,
         ).length
@@ -129,6 +126,11 @@ router.get('/:id', csrfProtection, (req, res, next) => {
             },
             { where: { receiverId: req.user.id, targetId: post.id } },
           ).then(() => {
+            post.isFavorite = favorites.some((favorite) => {
+              return (
+                favorite.userId === req.user.id && post.id === favorite.postId
+              )
+            })
             User.findOne({ where: { id: req.user.id } }).then((user) => {
               res.render('post/detail', {
                 post: post,
@@ -141,11 +143,17 @@ router.get('/:id', csrfProtection, (req, res, next) => {
           })
         } else {
           // ログイン状態でなくとも、userを渡す…
+          req.user = { id: null }
+          post.isFavorite = favorites.some((favorite) => {
+            return (
+              favorite.userId === req.user.id && post.id === favorite.postId
+            )
+          })
           res.render('post/detail', {
             post: post,
             comments: comments,
             favorites: favorites,
-            user: 'null',
+            user: req.user,
             csrfToken: req.csrfToken(),
           })
         }
