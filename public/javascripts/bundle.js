@@ -99,7 +99,96 @@ __webpack_require__.r(__webpack_exports__);
 
 var global = Function('return this;')();
 global.jQuery = jquery__WEBPACK_IMPORTED_MODULE_0___default.a;
+ // ajax　いいね処理
 
+jquery__WEBPACK_IMPORTED_MODULE_0___default()('.favorite-button').each(function (i, e) {
+  var button = jquery__WEBPACK_IMPORTED_MODULE_0___default()(e);
+  button.click(function () {
+    var postId = button.data('post-id');
+    var userId = button.data('user-id');
+    var isFavorite = button.data('is-favorite');
+    var nextFavorite = !isFavorite;
+
+    if (userId) {
+      jquery__WEBPACK_IMPORTED_MODULE_0___default.a.post('/favorite', {
+        postId: postId,
+        userId: userId
+      }, function (data) {
+        button.data('is-favorite', nextFavorite);
+        var favoriteCountSpan = button.parent().find('.favorite-count');
+        var favoriteCount = Number(favoriteCountSpan.text());
+
+        if (isFavorite) {
+          favoriteCount--;
+        } else {
+          favoriteCount++;
+        }
+
+        favoriteCountSpan.text(favoriteCount); // クラス替えたい
+      });
+    } else {
+      location.href = '/login';
+    }
+  });
+}); // ajax コメント送信機能
+
+jquery__WEBPACK_IMPORTED_MODULE_0___default()('.comment-button').each(function (i, e) {
+  var btn = jquery__WEBPACK_IMPORTED_MODULE_0___default()(e);
+  var token = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+  btn.click(function () {
+    var postId = btn.data('post-id');
+    var userId = btn.data('user-id');
+    var usericonName = btn.data('icon-name');
+    var userName = btn.data('user-name');
+    var content = document.getElementById('content');
+    var content_value = content.value;
+    var target = document.getElementById('comment-target');
+    var text_target = document.getElementById('text-target'); //　ヘッダーにcsrf-tokenを渡す。
+
+    if (content_value.length !== 0) {
+      jquery__WEBPACK_IMPORTED_MODULE_0___default.a.ajaxSetup({
+        headers: {
+          'X-CSRF-TOKEN': token
+        }
+      });
+      jquery__WEBPACK_IMPORTED_MODULE_0___default.a.post('/posts/comment', {
+        postId: postId,
+        userId: userId,
+        content: content_value
+      }, function (data) {
+        var html = "<div class=\"col-2 col-md-1 mt-2\"><img class=\"comment-icon\"src=\"https://s3-ap-northeast-1.amazonaws.com/share-code.bucket/upload-icon/".concat(usericonName, "\" alt=\"\"/></div>");
+        var html2 = "<div class=\"col-10 col-md-11 col-lg-10\"><div class=\"row\"><div class=\"col-12 comment-name pt-2\">".concat(userName, "</div><div class=\"col-12\"><p class=\"border border-success mt-2 rounded\">").concat(content_value, "</p></div></div></div>");
+        text_target.innerHTML = 'コメントが追加されました！リロード推奨';
+        content.value = ''; // ほんとは追加したい
+
+        target.insertAdjacentHTML('beforeend', html + html2);
+      });
+    } else {
+      text_target.innerHTML = 'コメントが追加できませんでした';
+    }
+  });
+}); //ajax コメント削除
+
+jquery__WEBPACK_IMPORTED_MODULE_0___default()('.comment-delete').each(function (i, e) {
+  var comment_btn = jquery__WEBPACK_IMPORTED_MODULE_0___default()(e);
+  var token = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+  comment_btn.click(function () {
+    var commentId = comment_btn.data('comment-id');
+    var target = document.getElementById(commentId);
+    jquery__WEBPACK_IMPORTED_MODULE_0___default.a.ajaxSetup({
+      headers: {
+        'X-CSRF-TOKEN': token
+      }
+    });
+    jquery__WEBPACK_IMPORTED_MODULE_0___default.a.post('/posts/delete', {
+      id: commentId
+    }, function (data) {
+      console.log(target); //null
+
+      target.remove();
+    });
+  });
+});
 
 /***/ }),
 /* 1 */

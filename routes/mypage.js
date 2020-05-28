@@ -20,7 +20,6 @@ router.get('/', authenticationEnsurer, (req, res, next) => {
     attributes: ['postId'],
     group: ['postId'],
   }).then((comments) => {
-    console.log(comments)
     Favorite.findAll().then((favorites) => {
       Notice.findAll({
         where: {
@@ -35,11 +34,23 @@ router.get('/', authenticationEnsurer, (req, res, next) => {
             },
           ],
         }).then((posts) => {
-          var now = new Date()
           User.findOne({
             where: { id: req.user.id },
           }).then((user) => {
-            //renderの第二引数で値をテンプレートエンジンに渡している フォルダ名の指定でindexが読み込まれている
+            // お気に入りの状態を持たせる
+            posts.forEach((post) => {
+              post.isFavorite = favorites.some((favorite) => {
+                return (
+                  favorite.userId === req.user.id && post.id === favorite.postId
+                )
+              })
+              post.favoriteCount = favorites.filter(
+                (v) => post.id === v.postId,
+              ).length
+              post.commentCount = comments.filter(
+                (v) => post.id === v.postId,
+              ).length
+            })
             res.render('mypage', {
               comments: comments,
               favorites: favorites,

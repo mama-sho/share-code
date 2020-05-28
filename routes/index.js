@@ -63,24 +63,28 @@ router.get('/', (req, res, next) => {
             return comparison * -1
           }
         }
-
-        if (req.user) {
-          User.findOne({
-            where: { id: req.user.id },
-          }).then((user) => {
-            res.render('index', {
-              posts: posts,
-              comments: comments,
-              favorites: favorites,
-              user: user,
-            })
-          })
+        if (!req.user) {
+          req.user = { id: null }
         }
+        // お気に入りの状態を持たせる
+        posts.forEach((post) => {
+          post.isFavorite = favorites.some((favorite) => {
+            return (
+              favorite.userId === req.user.id && post.id === favorite.postId
+            )
+          })
+          post.favoriteCount = favorites.filter(
+            (v) => post.id === v.postId,
+          ).length
+          post.commentCount = comments.filter(
+            (v) => post.id === v.postId,
+          ).length
+        })
         res.render('index', {
           posts: posts,
           comments: comments,
           favorites: favorites,
-          user: 'null',
+          user: req.user,
         })
       })
     })

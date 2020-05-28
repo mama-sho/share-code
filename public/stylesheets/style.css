@@ -80,6 +80,7 @@ form {
   color: rgb(226, 172, 226);
 }
 .fa-heart:hover {
+  cursor: pointer;
   color: rgb(250, 70, 205);
   font-size: 21px;
 }
@@ -245,7 +246,13 @@ label > input {
 .comment-name {
   font-size: large;
 }
+.reply-button {
+  cursor: pointer;
+}
 .reply_button {
+  cursor: pointer;
+}
+.comment-delete {
   cursor: pointer;
 }
 

@@ -96,6 +96,9 @@ var favoriteRouter = require('./routes/favorites')
 var user_listRouter = require('./routes/user-list')
 
 var app = express()
+var bodyParser = require('body-parser')
+app.use(bodyParser.json())
+app.use(bodyParser.urlencoded({ extended: true })) // ajax で送信するときのjsonデータの初期化
 app.use(helmet())
 
 // viewの設定 ejsを使うことを宣言している
@@ -107,7 +110,7 @@ app.use(flash())
 app.use(fileupload())
 app.use(logger('dev'))
 app.use(express.json())
-app.use(express.urlencoded({ extended: false }))
+app.use(express.urlencoded({ extended: true }))
 app.use(cookieParser())
 app.use(express.static(path.join(__dirname, 'public')))
 

@@ -84,8 +84,7 @@
         <% posts.forEach(post => { %>
         <div class="col-md-6">
           <div class="card mt-2">
-            <% if (post.isOriginal === "true") { %>
-            <div class="card-header font-weight-bold" style="background-color: black;">
+            <div class="card-header font-weight-bold" style="background-color: rgb(0, 0, 0);">
               <img
                 class="card-icon"
                 src="https://s3-ap-northeast-1.amazonaws.com/share-code.bucket/upload-icon/<%= post.user.iconFileName %>"
@@ -95,49 +94,20 @@
                 <%= post.user.name %>
               </span>
               <span class="float-right mt-1">
-                <a href="/favorite/<%= post.id %>">
+                <span class="favorite-button" data-is-favorite="<%= post.isFavorite %>" data-post-id="<%= post.id %>" data-user-id="<%= user.id %>">
                   <i class="fas fa-heart heart fa-fw fa-lg"></i>
-                </a>
-                <span class="text-light">
-                  <%= favorites.filter((v) => post.id === v.postId).length%>
+                </span>
+                <span class="text-light favorite-count">
+                  <%= post.favoriteCount %>
                 </span class="text-light">
                 <a href="/posts/<%= post.id %>">
                   <i class="fas fa-comment comment fa-fw ml-2 fa-lg"></i>
                 </a>
                 <span class="text-light">
-                  <%= comments.filter((v) => post.id === v.postId).length %>
-                </span>
-              </span>
-              
-            </div>
-
-            <% } else { %>
-            <div class="card-header font-weight-bold" style="background-color: black;">
-              <img
-                class="card-icon"
-                src="https://s3-ap-northeast-1.amazonaws.com/share-code.bucket/upload-icon/<%= post.user.iconFileName %>"
-                alt=""
-              />
-              <span class="ml-2" style="color:rgb(232, 232, 247);">
-                <%= post.user.name %>
-              </span>
-              <span class="float-right mt-1">
-                <a href="/favorite/<%= post.id %>">
-                  <i class="ha fas fa-heart heart fa-fw fa-lg"></i>
-                </a>
-                <span class="text-light">
-                  <%= favorites.filter((v) => post.id === v.postId).length %>
-                </span>
-                <a href="/posts/<%= post.id %>">
-                  <i class="fas fa-comment comment fa-fw ml-2 fa-lg"></i>
-                </a>
-                <span class="text-light">
-                  <%= comments.filter((v) => post.id === v.postId).length %>
+                  <%= post.commentCount %>
                 </span>
               </span>
             </div>
-              <% }; %>
-
             <div class="card-body bg-light">
               <h4 class="card-title ml-1"><%= post.songName %></h4>
               <p class="card-text code-prog"><%= post.codeProg %></p>
@@ -203,6 +173,6 @@
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
-    <script src="/javascripts/bunble.js"></script>
+    <script src="/javascripts/bundle.js"></script>
   </body>
 </html>

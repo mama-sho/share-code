@@ -78,8 +78,7 @@
         <% if (post.userId === user.id) { %>
           <div class="col-12 col-lg-6">
             <div class="card mt-3">
-              <% if (posts.isOriginal === "true") { %>
-              <div class="card-header font-weight-bold bg-primary">
+              <div class="card-header font-weight-bold text-light" style="background-color: rgb(0, 0, 0);">
                 <img
                   class="card-icon"
                   src="https://s3-ap-northeast-1.amazonaws.com/share-code.bucket/upload-icon/<%= post.user.iconFileName %>"
@@ -87,40 +86,19 @@
                 />
                 <%= post.user.name %>
                 <span class="float-right">
-                  <a href="/favorite/<%= post.id %>"><!--/:postId-->
-                    <i class="fas fa-heart fa-fw fa-lg"></i>
-                  </a>
-                  <span>
-                    <%= favorites.filter((v) => post.id === v.postId).length%>
+                  <span class="favorite-button" data-is-favorite="<%= post.isFavorite %>" data-post-id="<%= post.id %>" data-user-id="<%= myuser.id %>">
+                    <i class="fas fa-heart heart fa-fw fa-lg"></i>
+                  </span>
+                  <span class="favorite-count">
+                    <%= post.favoriteCount %>
                   </span>
                   <i class="fas fa-comment fa-fw ml-2 fa-lg"></i>
                   <span>
-                    <%= comments.filter((v) => post.id === v.postId).length %>
+                    <%= post.commentCount %>
                   </span>
                 </span>
               </div>
   
-              <% } else { %>
-              <div class="card-header font-weight-bold bg-success">
-                <img
-                  class="card-icon"
-                  src="https://s3-ap-northeast-1.amazonaws.com/share-code.bucket/upload-icon/<%= post.user.iconFileName %>"
-                  alt=""
-                />
-                <%= post.user.name %>
-                <span class="float-right">
-                  <a href="/favorite/<%= post.id %>"><!--/:postId-->
-                    <i class="fas fa-heart fa-fw fa-lg"></i>
-                  </a>
-                  <span>
-                    <%= favorites.filter((v) => post.id === v.postId).length %>
-                  </span>
-                  <i class="fas fa-comment fa-fw ml-2 fa-lg"></i>
-                  <span>
-                    <%= comments.filter((v) => post.id === v.postId).length %>
-                  </span>
-              </div>
-              <% }; %>
   
               <div class="card-body bg-light">
                 <h4 class="card-title"><%= post.songName %></h4>
@@ -164,6 +142,6 @@
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
-    <script src="/javascripts/bunble.js"></script>
+    <script src="/javascripts/bundle.js"></script>
   </body>
 </html>

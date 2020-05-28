@@ -82,18 +82,30 @@ router.get('/detail/:id', (req, res, next) => {
     }).then((posts) => {
       Comment.findAll().then((comments) => {
         Favorites.findAll().then((favorites) => {
-          user.favorite = favorites.filter((v) => {
-            // お気に入り数を計算
-            const post = posts.find((p) => p.id === v.postId)
-            //　三項演算子 post があればuserIdを、なければ nullを渡す
-            const userId = post ? post.userId : null
-            return userId === user.id
-          }).length
+          if (!req.user) {
+            req.user = { id: null }
+          }
+          //お気に入りの状態を持たせる
+          posts.forEach((post) => {
+            post.isFavorite = favorites.some((favorite) => {
+              return (
+                favorite.userId === req.user.id && post.id === favorite.postId
+              )
+            })
+            post.favoriteCount = favorites.filter(
+              (v) => post.id === v.postId,
+            ).length
+            post.commentCount = comments.filter(
+              (v) => post.id === v.postId,
+            ).length
+          })
+          // ログイン状態なら、自分のidを渡す　でないなら、null
           res.render('user-list/detail', {
             user: user,
             posts: posts,
             comments: comments,
             favorites: favorites,
+            myuser: req.user,
           })
         })
       })

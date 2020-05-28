@@ -115,6 +115,12 @@ router.get('/:id', csrfProtection, (req, res, next) => {
       where: { postId: req.params.id },
     }).then((comments) => {
       Favorite.findAll().then((favorites) => {
+        post.isFavorite = favorites.some((favorite) => {
+          return favorite.userId === req.user.id && post.id === favorite.postId
+        })
+        post.favoriteCount = favorites.filter(
+          (v) => post.id === v.postId,
+        ).length
         if (req.user) {
           // isreed機能 の追加   この状態だとどの投稿を見ても、全ての通知がtrueになってしまう
           Noitce.update(
@@ -149,55 +155,60 @@ router.get('/:id', csrfProtection, (req, res, next) => {
 })
 
 // コメントの投稿処理
-router.post('/:id', authenticationEnsurer, csrfProtection, (req, res, next) => {
-  Comment.create({
-    postId: req.params.id,
-    userId: req.user.id,
-    content: req.body.content,
-  }).then(() => {
-    Post.findOne({
-      where: { id: req.params.id },
-    }).then((post) => {
-      Noitce.create({
-        senderId: req.user.id, //ログイン状態の人
-        receiverId: post.userId, // 受信者
-        targetId: req.params.id, //どの投稿に対してのcommenntか
-        isReed: false,
-        type: 'comment',
-      }).then(() => {
-        res.redirect(`/posts/${req.params.id}`)
+router.post(
+  '/comment',
+  authenticationEnsurer,
+  csrfProtection,
+  (req, res, next) => {
+    Comment.create({
+      postId: req.body.postId,
+      userId: req.body.userId,
+      content: req.body.content,
+    }).then(() => {
+      Post.findOne({
+        where: { id: req.body.postId },
+      }).then((post) => {
+        Noitce.create({
+          senderId: req.user.id, //ログイン状態の人
+          receiverId: post.userId, // 受信者
+          targetId: req.body.postId, //どの投稿に対してのcommenntか
+          isReed: false,
+          type: 'comment',
+        }).then(() => {
+          res.json({ result: true })
+        })
       })
     })
-  })
-})
+  },
+)
 
 //  コメント削除機能
-router.get('/delete/:postId/:id', authenticationEnsurer, (req, res, next) => {
+router.post('/delete', authenticationEnsurer, (req, res, next) => {
   Comment.destroy({
     where: {
       [Op.or]: {
-        id: req.params.id,
-        replyId: req.params.id,
+        id: req.body.id,
+        replyId: req.body.id,
       },
     },
   }).then(() => {
-    res.redirect(`/posts/${req.params.postId}`)
+    res.json({ result: true })
   })
 })
 
 // 返信機能replry
 router.post(
-  '/reply/:postId/:id',
+  '/reply',
   authenticationEnsurer,
   csrfProtection,
   (req, res, next) => {
     Comment.create({
-      postId: req.params.postId,
+      postId: req.body.postId,
       userId: req.user.id,
       content: req.body.reply_content,
-      replyId: req.params.id,
+      replyId: req.body.replyId,
     }).then(() => {
-      res.redirect(`/posts/${req.params.postId}`)
+      res.json({ result: true })
     })
   },
 )
