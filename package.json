@@ -31,7 +31,7 @@
     "pg-hstore": "2.3.2",
     "popper.js": "1.14.0",
     "pug": "2.0.0-beta11",
-    "sequelize": "4.33.4"
+    "sequelize": "6.28.2"
   },
   "devDependencies": {
     "@babel/core": "7.1.6",
